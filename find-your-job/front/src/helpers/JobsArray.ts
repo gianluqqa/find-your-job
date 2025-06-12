@@ -1,4 +1,4 @@
-import { IJob } from "../interfaces/IJOB";
+import { IJob } from "../interfaces/IJob";
 
 export const JobsArray: IJob[] = [
   {
