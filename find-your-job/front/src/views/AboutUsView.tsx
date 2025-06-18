@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUsView = () => {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 text-green-900">
+    <section id='aboutus' className="max-w-4xl mx-auto px-6 py-12 text-green-900">
       <h1 className="text-3xl font-bold mb-6 text-green-800">Our Story</h1>
       <p className="mb-4">
         FINDyourJOB was born from a place of frustration—but also from the determination to make things better.
@@ -28,7 +28,7 @@ const AboutUsView = () => {
       <p className="mt-6 font-semibold text-green-700">
         Because everyone deserves a chance to be seen—and FINDyourJOB is here to make that happen.
       </p>
-    </div>
+    </section>
   );
 };
 

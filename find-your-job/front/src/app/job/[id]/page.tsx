@@ -1,7 +1,7 @@
 import { JobsArray } from "src/helpers/JobsArray";
+import { IPropsId } from "src/interfaces/IPropsId";
 
-
-const JobDetailPage: React.FC = ({ params }) => {
+const JobDetailPage: React.FC<IPropsId> = ({ params }) => {
   const jobById = JobsArray.find((j) => j.id === params.id);
 
   if (!jobById) {
@@ -17,7 +17,6 @@ const JobDetailPage: React.FC = ({ params }) => {
       <p>Category: {jobById.category}</p>
       <p>Salary: {jobById.salary}</p>
       <p>Created At: {jobById.createdAt}</p>
-      
     </main>
   );
 };

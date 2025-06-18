@@ -7,7 +7,8 @@ export interface IJob {
   category: string;
   salary?: string;
   createdAt: string;
-  status: "Active" | "Expired" | "Urgent"; 
-  modality: "On-site" | "Remote" | "Hybrid"; 
+  status: "Active" | "Expired" | "Urgent";
+  modality: "On-site" | "Remote" | "Hybrid";
   type: "Full-Time" | "Part-Time" | "Freelance" | "Internship" | "Temporary";
+  vacancies?: number;
 }
