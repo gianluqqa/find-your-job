@@ -1,91 +1,145 @@
-"use client";
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { IRegister } from "src/interfaces/IRegister";
+'use client';
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import { IRegister } from 'src/interfaces/IRegister';
+import { fakeLogin } from 'src/helpers/authFunctions';
+import { useRouter } from 'next/navigation';
+import { validateRegister } from 'src/helpers/validateRegister';
 
 const initialValues: IRegister = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  role: "candidate",
-  country: "",
-  state: "",
-  city: "",
-  phone: "",
-  about: "",
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  role: 'candidate',
+  country: '',
+  state: '',
+  city: '',
+  phone: '',
+  about: '',
   termsAccepted: false,
 };
 
+const formFields = [
+  { name: 'name', label: 'Name', type: 'text', placeholder: 'Your name' },
+  { name: 'email', label: 'Email', type: 'email', placeholder: 'example@mail.com' },
+  { name: 'password', label: 'Password', type: 'password', placeholder: 'Password' },
+  { name: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: 'Confirm your password' },
+  {
+    name: 'role',
+    label: 'Role',
+    type: 'select',
+    options: [
+      { value: 'candidate', label: 'Candidate' },
+      { value: 'recruiter', label: 'Recruiter' }, // mantené este valor para que coincida con la lógica
+    ],
+  },
+  { name: 'country', label: 'Country', type: 'text', placeholder: 'Country' },
+  { name: 'state', label: 'State', type: 'text', placeholder: 'State' },
+  { name: 'city', label: 'City', type: 'text', placeholder: 'City' },
+  { name: 'phone', label: 'Phone', type: 'text', placeholder: '+54 9 11 1234 5678' },
+  { name: 'about', label: 'About you', type: 'textarea', placeholder: 'Tell us about yourself (optional)', rows: 4 },
+];
+
 const RegisterView: React.FC = () => {
+  const router = useRouter();
+
   const handleSubmit = (values: IRegister) => {
-    console.log("Form data:", values);
+    // Guarda el rol
+    fakeLogin(values.role as 'candidate' | 'recruiter');
+
+    // Guarda el usuario completo
+    localStorage.setItem('registeredUser', JSON.stringify(values));
+
+    // Mostrar en consola
+    console.log('Registered user:', values);
+
+    // Redirige al login
+    router.push('/login');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f4f9f4] px-4">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8 border border-[#d4eac7]">
-        <h1 className="text-3xl font-bold text-[#3a5a40] mb-6 text-center">Create Your Account</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#283618] to-[#4a5a32] px-4">
+      <div className="w-full max-w-3xl bg-[#3a4a25] rounded-3xl shadow-2xl p-10 border border-[#5a703a]">
+        <h1 className="text-4xl font-extrabold text-[#b8c67a] mb-8 text-center">Create your account</h1>
 
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <Form className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Full Name</label>
-                <Field name="name" className="w-full p-2 border border-[#a3b18a] rounded-md focus:outline-none" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Email</label>
-                <Field name="email" type="email" className="w-full p-2 border border-[#a3b18a] rounded-md focus:outline-none" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Password</label>
-                <Field name="password" type="password" className="w-full p-2 border border-[#a3b18a] rounded-md focus:outline-none" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Confirm Password</label>
-                <Field name="confirmPassword" type="password" className="w-full p-2 border border-[#a3b18a] rounded-md focus:outline-none" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Role</label>
-                <Field as="select" name="role" className="w-full p-2 border border-[#a3b18a] rounded-md">
-                  <option value="candidate">Candidate</option>
-                  <option value="recruiter">Recruiter</option>
-                </Field>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Phone (Optional)</label>
-                <Field name="phone" className="w-full p-2 border border-[#a3b18a] rounded-md" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">Country</label>
-                <Field name="country" className="w-full p-2 border border-[#a3b18a] rounded-md" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">State / Province</label>
-                <Field name="state" className="w-full p-2 border border-[#a3b18a] rounded-md" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3a5a40]">City</label>
-                <Field name="city" className="w-full p-2 border border-[#a3b18a] rounded-md" />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-[#3a5a40]">About You (Optional)</label>
-                <Field as="textarea" name="about" rows={3} className="w-full p-2 border border-[#a3b18a] rounded-md" />
-              </div>
-              <div className="md:col-span-2 flex items-center space-x-2">
-                <Field type="checkbox" name="termsAccepted" className="w-4 h-4 text-[#3a5a40]" />
-                <label className="text-sm text-[#3a5a40]">I accept the Terms and Conditions</label>
-              </div>
-            </div>
+        <Formik initialValues={initialValues} validate={validateRegister} onSubmit={handleSubmit}>
+          {({ errors, touched, isSubmitting }) => (
+            <Form className="space-y-6">
+              {formFields.map(({ name, label, type, placeholder, options, rows }) => {
+                const key = name as keyof IRegister;
+                const showError = errors[key] && touched[key];
 
-            <button
-              type="submit"
-              className="mt-4 w-full bg-[#588157] hover:bg-[#3a5a40] text-white font-semibold py-2 rounded-md transition-all duration-200"
-            >
-              Register
-            </button>
-          </Form>
+                return (
+                  <div key={name}>
+                    <label htmlFor={name} className="block text-[#b8c67a] font-semibold mb-1">
+                      {label}
+                    </label>
+
+                    {type === 'select' ? (
+                      <Field
+                        as="select"
+                        name={name}
+                        className={`w-full p-3 rounded-md border bg-[#283618] text-[#d9e4c8] ${
+                          showError ? 'border-red-600' : 'border-[#5a703a]'
+                        } focus:outline-none focus:ring-2 focus:ring-[#9caf6f]`}
+                      >
+                        {options!.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </Field>
+                    ) : type === 'textarea' ? (
+                      <Field
+                        as="textarea"
+                        name={name}
+                        placeholder={placeholder}
+                        rows={rows}
+                        className={`w-full p-3 rounded-md border bg-[#283618] text-[#d9e4c8] placeholder-[#a5b38a] resize-none ${
+                          showError ? 'border-red-600' : 'border-[#5a703a]'
+                        } focus:outline-none focus:ring-2 focus:ring-[#9caf6f]`}
+                      />
+                    ) : (
+                      <Field
+                        name={name}
+                        type={type}
+                        placeholder={placeholder}
+                        className={`w-full p-3 rounded-md border bg-[#283618] text-[#d9e4c8] placeholder-[#a5b38a] ${
+                          showError ? 'border-red-600' : 'border-[#5a703a]'
+                        } focus:outline-none focus:ring-2 focus:ring-[#9caf6f]`}
+                      />
+                    )}
+
+                    {showError && <div className="text-red-600 mt-1 text-sm">{errors[key]}</div>}
+                  </div>
+                );
+              })}
+
+              <div className="flex items-center">
+                <Field
+                  type="checkbox"
+                  name="termsAccepted"
+                  id="termsAccepted"
+                  className="h-5 w-5 text-[#9caf6f] focus:ring-[#9caf6f] border-gray-300 rounded"
+                />
+                <label htmlFor="termsAccepted" className="ml-2 block text-[#b8c67a] font-semibold">
+                  I accept the terms and conditions
+                </label>
+              </div>
+              {errors.termsAccepted && touched.termsAccepted && (
+                <div className="text-red-600 mt-1 text-sm">{errors.termsAccepted}</div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-[#6b7b3a] hover:bg-[#4a5a20] text-[#d9e4c8] font-bold py-3 rounded-xl transition duration-300 disabled:opacity-50"
+              >
+                {isSubmitting ? 'Registering...' : 'Register'}
+              </button>
+            </Form>
+          )}
         </Formik>
       </div>
     </div>

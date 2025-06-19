@@ -1,9 +1,12 @@
 import React from 'react'
+import DashboardCandidateView from 'src/views/DashboardCandidateView'
 
-const candidate = () => {
+const CandidateDashboardPage = () => {
   return (
-    <div>candidate</div>
+    <div>
+      <DashboardCandidateView />
+    </div>
   )
 }
 
-export default candidate
+export default CandidateDashboardPage

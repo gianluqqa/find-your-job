@@ -1,5 +1,5 @@
 import React from "react";
-import { TipsArray } from "src/helpers/TipsArray";
+import { TipsArray } from "src/helpers/tipsArray";
 
 const ProfessionalDView = () => {
   return (

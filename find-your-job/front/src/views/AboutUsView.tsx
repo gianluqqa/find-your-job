@@ -1,33 +1,64 @@
 import React from 'react';
+import { Heart, Users, Target } from 'lucide-react';
 
 const AboutUsView = () => {
   return (
-    <section id='aboutus' className="max-w-4xl mx-auto px-6 py-12 text-green-900">
-      <h1 className="text-3xl font-bold mb-6 text-green-800">Our Story</h1>
-      <p className="mb-4">
-        FINDyourJOB was born from a place of frustration—but also from the determination to make things better.
-      </p>
-      <p className="mb-4">
-        My name is Gian Luca Caravone. I’m a Full Stack Web Developer who has been studying programming for the past two years—one year self-taught, and the other through formal academic training.
-      </p>
-      <p className="mb-4">
-        Like many others, I spent over a year actively searching for a job. Day after day, I jumped from one platform to another, hoping to find an opportunity that would let me show my skills. But instead of progress, I found endless loops—job portals that redirected me to other sites, repetitive forms, and no clear way to know whether my application even mattered.
-      </p>
-      <p className="mb-4">
-        All I wanted was something simple: the ability to upload my CV, answer my recruiter’s questions directly, and at the very least, get a clear response—even if it was a "no." I wanted feedback. I wanted closure. I wanted fairness.
-      </p>
-      <p className="mb-4">
-        That’s when I decided to build <strong>FINDyourJOB</strong>—a platform designed by a job seeker, for job seekers. This is more than a job board. It’s a space that respects your time, your effort, and your need for clarity.
-      </p>
-      <p className="mb-4">
-        Our mission is to simplify the application process, reduce candidate anxiety, and provide value at every step. Whether it’s through smarter search tools, simplified submissions, or actionable feedback from recruiters, we want you to feel that your time and energy are well spent.
-      </p>
-      <p className="mb-4">
-        We also provide professional development advice and tips to help you grow—not just to find a job, but to become a stronger, more confident version of yourself.
-      </p>
-      <p className="mt-6 font-semibold text-green-700">
-        Because everyone deserves a chance to be seen—and FINDyourJOB is here to make that happen.
-      </p>
+    <section id='aboutus' className="relative py-20 bg-gradient-to-br from-stone-50 to-emerald-50/40">
+      {/* Background decoration */}
+      <div className="absolute top-10 right-10 w-32 h-32 bg-emerald-400/10 rounded-full blur-xl"></div>
+      <div className="absolute bottom-10 left-10 w-24 h-24 bg-teal-400/10 rounded-full blur-lg"></div>
+      
+      <div className="max-w-4xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-emerald-200/50 mb-6">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></div>
+            <span className="text-emerald-700 font-medium text-sm">Our Story</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-800 to-teal-700 bg-clip-text text-transparent mb-4">
+            Built by Job Seekers, for Job Seekers
+          </h1>
+          <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mx-auto"></div>
+        </div>
+
+        {/* Main content */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-white/50 shadow-xl hover:shadow-emerald-500/10 transition-all duration-500">
+          <p className="text-stone-700 text-lg leading-relaxed mb-6">
+            FINDyourJOB was born from frustration—endless job portals, repetitive forms, and no clear feedback. 
+            As a Full Stack Developer who spent over a year job hunting, I wanted something simple: upload your CV, 
+            get direct responses, and receive honest feedback.
+          </p>
+          <p className="text-stone-700 text-lg leading-relaxed mb-6">
+            This platform respects your time and effort. We simplify applications, reduce anxiety, and provide 
+            clarity at every step—because everyone deserves to be seen.
+          </p>
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 rounded-xl text-center">
+            <p className="font-semibold text-lg">
+              Everyone deserves a chance to be seen—and FINDyourJOB is here to make that happen.
+            </p>
+          </div>
+        </div>
+
+        {/* Values */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { icon: Heart, title: "Passion", desc: "Built with genuine care for job seekers" },
+            { icon: Users, title: "Community", desc: "By developers, for the tech community" },
+            { icon: Target, title: "Purpose", desc: "Clear, honest, and respectful process" }
+          ].map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div key={index} className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-lg hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300 text-center group">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-semibold text-emerald-800 mb-2">{item.title}</h3>
+                <p className="text-stone-600 text-sm">{item.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 };

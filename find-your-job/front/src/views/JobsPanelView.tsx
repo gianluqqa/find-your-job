@@ -1,5 +1,5 @@
 import React from "react";
-import { JobsArray } from "../helpers/JobsArray";
+import { JobsArray } from "../helpers/jobsArray";
 import Link from "next/link";
 
 const JobsPanelView: React.FC = () => {

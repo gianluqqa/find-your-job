@@ -1,4 +1,4 @@
-import { ICompany } from "src/interfaces/ICompany";
+import { ICompany } from "src/interfaces/IRecruiter";
 
 export const CompaniesArray: ICompany[] = [
   {

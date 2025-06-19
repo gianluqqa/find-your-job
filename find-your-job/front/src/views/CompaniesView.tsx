@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompaniesArray } from 'src/helpers/CompaniesArray';
+import { CompaniesArray } from 'src/helpers/companiesArray';
 
 const CompaniesView = () => {
   return (

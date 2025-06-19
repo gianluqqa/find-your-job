@@ -1,4 +1,4 @@
-import { JobsArray } from "src/helpers/JobsArray";
+import { JobsArray } from "src/helpers/jobsArray";
 import { IPropsId } from "src/interfaces/IPropsId";
 
 const JobDetailPage: React.FC<IPropsId> = ({ params }) => {
