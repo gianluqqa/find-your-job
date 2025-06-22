@@ -2,9 +2,16 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { getUser } from "src/helpers/authFunctions";
+import { IUser } from "src/interfaces/IUser";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();
+  const [user, setUser] = useState<IUser | null>(null);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => {
@@ -15,18 +22,55 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const handleGoBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
+  useEffect(() => {
+    const storedUser = getUser();
+    setUser(storedUser);
+  }, []);
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
-        isScrolled 
-          ? "bg-slate-800/90 backdrop-blur-lg shadow-2xl border-b border-emerald-700/20" 
+        isScrolled
+          ? "bg-slate-800/90 backdrop-blur-lg shadow-2xl border-b border-emerald-700/20"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Back button and Logo */}
           <div className="flex items-center gap-3">
+            {/* Back Button - Solo aparece cuando no estamos en home */}
+            {!isHomePage && (
+              <button
+                onClick={handleGoBack}
+                className="group p-2 rounded-xl hover:bg-emerald-800/20 transition-all duration-300 hover:scale-105 active:scale-95"
+                title="Volver atrás"
+              >
+                <svg
+                  className="w-6 h-6 text-emerald-100 group-hover:text-emerald-300 transition-colors duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
+
+            {/* Logo */}
             <Link href={"/"} className="group">
               <div className="relative overflow-hidden rounded-xl p-2 transition-all duration-300 group-hover:bg-emerald-800/10">
                 <Image
@@ -44,8 +88,8 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-8">
             <ul className="flex gap-8 text-emerald-100 text-sm font-medium">
               <li>
-                <a 
-                  href="#jobspreview" 
+                <a
+                  href="#jobspreview"
                   className="relative cursor-pointer transition-all duration-300 hover:text-emerald-300 group"
                 >
                   Jobs
@@ -53,8 +97,8 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="#companiespreview" 
+                <a
+                  href="#companiespreview"
                   className="relative cursor-pointer transition-all duration-300 hover:text-emerald-300 group"
                 >
                   Companies
@@ -62,8 +106,8 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="#aboutus" 
+                <a
+                  href="#aboutus"
                   className="relative cursor-pointer transition-all duration-300 hover:text-emerald-300 group"
                 >
                   About Us
@@ -71,8 +115,8 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="#professionaldpreview" 
+                <a
+                  href="#professionaldpreview"
                   className="relative cursor-pointer transition-all duration-300 hover:text-emerald-300 group"
                 >
                   Professional Development
@@ -118,8 +162,18 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="lg:hidden">
             <button className="text-emerald-100 p-2 rounded-lg hover:bg-emerald-800/20 transition-colors duration-300">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>
