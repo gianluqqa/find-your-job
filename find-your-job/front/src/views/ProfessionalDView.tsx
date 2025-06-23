@@ -1,29 +1,34 @@
 import React from "react";
 import { TipsArray } from "src/helpers/tipsArray";
+import TipCard from "src/components/ui/TipsCard";
 
 const ProfessionalDView = () => {
   return (
-    <section id="professionaldev" className="bg-white min-h-screen py-12 px-6">
-      <h1 className="text-3xl font-bold text-green-900 text-center mb-10">
-        Professional Development Tips
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {TipsArray.map((tip) => (
-          <div
-            key={tip.id}
-            className="bg-green-50 border border-green-200 rounded-xl shadow-md p-6 hover:shadow-lg transition"
-          >
-            <img
-              src={tip.image}
-              alt={tip.title}
-              className="w-full h-40 object-contain mb-4 rounded"
+    <section
+      id="professionaldev"
+      className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 min-h-[120vh] pt-32 pb-20 px-6"
+    >
+      {" "}
+      <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-transparent pointer-events-none"></div>
+      <div className="relative z-10">
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-300 text-center mb-4">
+          Professional Development Tips
+        </h1>
+        <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">
+          Join thousands of professionals working at the world's most innovative
+          companies
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {TipsArray.map((tip) => (
+            <TipCard
+              key={tip.id}
+              id={tip.id}
+              image={tip.image}
+              title={tip.title}
+              description={tip.description}
             />
-            <h2 className="text-xl font-semibold text-green-800 mb-2">
-              {tip.title}
-            </h2>
-            <p className="text-green-700 text-sm">{tip.description}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

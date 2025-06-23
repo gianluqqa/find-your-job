@@ -1,6 +1,6 @@
-import { ICompany } from "src/interfaces/IRecruiter";
+import { IRecruiterCompany } from "src/interfaces/IRecruiterCompany";
 
-export const CompaniesArray: ICompany[] = [
+export const CompaniesArray: IRecruiterCompany[] = [
   {
     "id": "1",
     "src": "/google.png",

@@ -1,6 +1,6 @@
 import React from "react";
 import { CompaniesArray } from "src/helpers/companiesArray";
-import { ICompany } from "src/interfaces/IRecruiter";
+import { ICompany } from "src/interfaces/ICompany";
 import { IPropsId } from "src/interfaces/IPropsId";
 
 const CompanyDetail: React.FC<IPropsId> = ({ params }) => {

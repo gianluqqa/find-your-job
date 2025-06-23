@@ -3,7 +3,7 @@ import { CompaniesArray } from 'src/helpers/companiesArray';
 
 const CompaniesView = () => {
   return (
-    <div className="p-8">
+    <div className="p-8 bg-amber-200 min-h-[120vh] pt-32 pb-20 px-6" >
       <h1 className="text-3xl font-bold mb-6">Companies</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {CompaniesArray.map((company) => {

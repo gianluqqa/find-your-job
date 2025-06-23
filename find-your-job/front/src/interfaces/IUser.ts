@@ -1,4 +1,5 @@
 import { IJob } from "./IJob";
+import { IPostulation } from "./IPostulation";
 
 export interface IUser {
   id: string;
@@ -12,6 +13,7 @@ export interface IUser {
   // Solo si es candidate
   phone?: string;
   about?: string;
+  postulations?: IPostulation[];
   // Solo si es recruiter
   src?: string;
   alt?: string;

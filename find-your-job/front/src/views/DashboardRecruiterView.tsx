@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { IRecruiter } from 'src/interfaces/IRecruiter';
+import { IRecruiter } from 'src/interfaces/ICompany';
 
 const DashboardRecruiterView: React.FC = () => {
   const [recruiter, setRecruiter] = useState<IRecruiter | null>(null);

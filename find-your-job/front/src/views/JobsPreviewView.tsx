@@ -46,7 +46,7 @@ const JobsPreviewView = () => {
     <section
       id="jobspreview"
       ref={sectionRef}
-      className="min-h-[90vh] bg-gradient-to-br from-slate-50 via-emerald-50/30 to-slate-100 w-full relative overflow-hidden"
+      className="min-h-[120vh] pt-32 pb-20 bg-gradient-to-br from-slate-50 via-emerald-50/30 to-slate-100 w-full relative overflow-hidden"
     >
       <div className="px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-16 max-w-7xl mx-auto">
         {/* Background decorative elements */}

@@ -1,0 +1,30 @@
+/* Animaciones personalizadas */
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Clases reutilizables */
+.bgSize200 {
+  background-size: 200% 200%;
+}
+
+.animateGradientX {
+  animation: gradient-x 3s ease infinite;
+}
+
+.animateShake {
+  animation: shake 0.5s ease-in-out;
+}
