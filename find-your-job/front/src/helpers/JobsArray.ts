@@ -1,6 +1,6 @@
 import { IJob } from "../interfaces/IJob";
 
-export const JobsArray: IJob[] = [
+export const jobsArray: IJob[] = [
   {
     id: "1",
     title: "Frontend Developer",

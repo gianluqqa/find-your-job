@@ -1,24 +1,15 @@
-import { JobsArray } from "src/helpers/jobsArray";
-import { IPropsId } from "src/interfaces/IPropsId";
 
-const JobDetailPage: React.FC<IPropsId> = ({ params }) => {
-  const jobById = JobsArray.find((j) => j.id === params.id);
+import React from 'react'
+import { IPropsId } from 'src/interfaces/IPropsId';
+import JobDetailView from "src/views/JobDetailView";
 
-  if (!jobById) {
-    return <p>No se encontró el trabajo con ID {params.id}</p>;
-  }
-
+const JobDetailPage = ({ params }: IPropsId) => {
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold">{jobById.title}</h1>
-      <p>{jobById.description}</p>
-      <p>Company: {jobById.company}</p>
-      <p>Location: {jobById.location}</p>
-      <p>Category: {jobById.category}</p>
-      <p>Salary: {jobById.salary}</p>
-      <p>Created At: {jobById.createdAt}</p>
-    </main>
+    <div>
+      <JobDetailView params={params} />
+    </div>
   );
 };
 
-export default JobDetailPage;
+export default JobDetailPage
+
