@@ -11,4 +11,6 @@ export interface IJob {
   modality: "On-site" | "Remote" | "Hybrid";
   type: "Full-Time" | "Part-Time" | "Freelance" | "Internship" | "Temporary";
   vacancies?: number;
+  requirements?: string;
+  benefits?: string;
 }
