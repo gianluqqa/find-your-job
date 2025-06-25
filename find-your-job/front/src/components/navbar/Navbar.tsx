@@ -43,7 +43,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="max-w-7xl mx-auto px-6 py-0">
         <div className="flex items-center justify-between">
           {/* Back button and Logo */}
           <div className="flex items-center gap-3">

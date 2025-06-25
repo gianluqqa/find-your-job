@@ -9,7 +9,7 @@ const JobPanelSplit: React.FC = () => {
   const [selectedJob, setSelectedJob] = useState<IJob | null>(null);
 
   return (
-    <div className="flex min-h-screen mt-20 bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900">
+    <div className="flex min-h-full pt-30 bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900">
       {/* Panel izquierdo - lista */}
       <div className="w-1/3 overflow-y-auto border-r border-white/10 bg-slate-900 p-6 space-y-4">
         {jobsArray.map((job) => (

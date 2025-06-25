@@ -13,7 +13,7 @@ const JobDetailView: React.FC<{ job: IJob }> = ({ job }) => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 py-8">
+    <div className="min-h-screen bg-slate-900 py-8 pt-0.5">
       <main className="max-w-5xl mx-auto p-6">
         {/* Job Header */}
         <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 mb-6">

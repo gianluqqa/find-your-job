@@ -1,7 +1,6 @@
 "use client"
 import React from "react";
 import { IJob } from "src/interfaces/IJob";
-import Button2 from "./Button2";
 
 const JobCard: React.FC<{ job: IJob }> = ({ job }) => {
   return (
@@ -40,13 +39,6 @@ const JobCard: React.FC<{ job: IJob }> = ({ job }) => {
           <span className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
             {job.modality}
           </span>
-        </div>
-
-        {/* Botón Apply con el componente Button2 */}
-        <div className="flex justify-end">
-          <Button2 href={`/job/${job.id}`}>
-            Apply
-          </Button2>
         </div>
       </div>
       
