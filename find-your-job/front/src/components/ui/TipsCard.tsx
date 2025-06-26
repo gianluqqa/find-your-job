@@ -1,24 +1,32 @@
 import React from "react";
+import { ITip } from "src/interfaces/ITip";
 
-interface TipCardProps {
-  id: number;
-  image: string;
-  title: string;
-  description: string;
-}
-
-const TipCard: React.FC<TipCardProps> = ({ image, title, description }) => {
+const TipCard: React.FC<ITip & { isReversed?: boolean }> = ({ image, title, description, isReversed = false }) => {
   return (
-    <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl shadow-xl p-6 hover:shadow-2xl hover:scale-105 transition-all duration-300 hover:border-emerald-500/50">
-      <img
-        src={image}
-        alt={title}
-        className="w-full h-40 object-contain mb-4 rounded-lg bg-slate-700/50 p-2"
-      />
-      <h2 className="text-xl font-semibold text-emerald-400 mb-3">
-        {title}
-      </h2>
-      <p className="text-slate-300 text-sm leading-relaxed">{description}</p>
+    <div className="bg-gray-100 relative">
+      <div className={`flex flex-col sm:flex-row h-full ${isReversed ? 'sm:flex-row-reverse' : ''}`}>
+        {/* Image Section */}
+        <div className="w-full sm:w-48 md:w-56 lg:w-64 h-32 sm:h-auto flex-shrink-0">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        {/* Content Section */}
+        <div className="flex-1 p-8 flex flex-col justify-center">
+          <h2 className="text-2xl font-bold text-emerald-600 mb-4 leading-tight">
+            {title}
+          </h2>
+          <p className="text-gray-600 text-base leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+      
+      {/* Media línea separadora */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-px bg-gray-200"></div>
     </div>
   );
 };
