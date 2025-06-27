@@ -10,7 +10,7 @@ const ProfessionalDView = () => {
     >
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-transparent pointer-events-none"></div>
       <div className="relative z-10">
-        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-300 text-center mb-4">
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-400 text-center mb-4">
           Professional Development Tips
         </h1>
         <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">

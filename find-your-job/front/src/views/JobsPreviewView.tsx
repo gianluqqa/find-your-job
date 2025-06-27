@@ -88,7 +88,7 @@ const JobsPreviewView = () => {
             <StatsCard value="5K+" label="Companies" delay={100} />
           </div>
           
-          <Button1 href="/jobs" isVisible={isVisible}>
+          <Button1 className="rounded-lg" href="/jobs" isVisible={isVisible}>
             Explore Jobs
           </Button1>
         </div>

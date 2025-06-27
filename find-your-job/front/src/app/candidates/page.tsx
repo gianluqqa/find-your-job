@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import DashboardCandidateView from "src/views/DashboardCandidateView";
 
-const CandidatesPage = () => {
+const CandidatePage = () => {
   return (
-    <div>Pagina de candidatos</div>
-  )
-}
+    <div>
+      <DashboardCandidateView />
+    </div>
+  );
+};
 
-export default CandidatesPage
+export default CandidatePage;

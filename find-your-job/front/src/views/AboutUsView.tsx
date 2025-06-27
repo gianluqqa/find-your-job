@@ -3,7 +3,7 @@ import { Heart, Users, Target } from 'lucide-react';
 
 const AboutUsView = () => {
   return (
-    <section id='aboutus' className="relative py-20 bg-gradient-to-br from-stone-50 to-emerald-50/40">
+    <section id='aboutus' className="relative py-20 bg-gradient-to-br from-stone-50  to-emerald-800">
       {/* Background decoration */}
       <div className="absolute top-10 right-10 w-32 h-32 bg-emerald-400/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-10 left-10 w-24 h-24 bg-teal-400/10 rounded-full blur-lg"></div>

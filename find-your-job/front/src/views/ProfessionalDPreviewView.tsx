@@ -56,7 +56,7 @@ const ProfessionalDPreview = () => {
             </div>
 
             <div className="pt-6">
-              <Button1 href="/professionaldev">
+              <Button1 className="rounded-lg" href="/professionaldev">
                 Go to Professional Development
                 <svg
                   className="ml-2 w-5 h-5 transition-transform group-hover/btn:translate-x-1"

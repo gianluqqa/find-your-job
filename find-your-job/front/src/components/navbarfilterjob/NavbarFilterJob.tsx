@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IFilterNavbar } from "src/interfaces/IFilterNavbar";
+import Button1 from "../ui/Button1";
 
 const NavbarFilterJob = ({
   onFilterChange,
@@ -158,12 +159,12 @@ const NavbarFilterJob = ({
 
           {/* Search Button */}
           <div className="flex items-center">
-            <button
+            <Button1
               onClick={() => onFilterChange(filters)}
-              className="w-full bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white font-semibold p-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="w-full font-semibold p-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Search Jobs
-            </button>
+            </Button1>
           </div>
 
         </div>

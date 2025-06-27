@@ -3,6 +3,7 @@ import { ISkills } from "./ISkills";
 
 export interface ICandidate {
   id?: string;
+  image?: string;
   name: string;
   email: string;
   phone?: string;

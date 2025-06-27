@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { getUser } from "src/helpers/authFunctions";
 import { IUser } from "src/interfaces/IUser";
+import Button1 from "../ui/Button1";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -153,9 +154,9 @@ const Navbar = () => {
             </Link>
 
             <Link href={"/register"}>
-              <button className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-sm font-medium px-6 py-2.5 rounded-xl hover:from-emerald-500 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-emerald-500/25 hover:scale-105 active:scale-95">
+              <Button1 className="rounded-lg">
                 Register
-              </button>
+              </Button1>
             </Link>
           </div>
 
