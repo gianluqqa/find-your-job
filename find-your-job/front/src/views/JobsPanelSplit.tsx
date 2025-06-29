@@ -11,6 +11,7 @@ const JobPanelSplit: React.FC = () => {
   const [selectedJob, setSelectedJob] = useState<IJob | null>(
     jobsArray[0] || null
   );
+  const [isDetailOpen, setIsDetailOpen] = useState(false); // control para móvil
 
   const [filters, setFilters] = useState<IFilterNavbar>({
     search: "",
@@ -24,16 +25,27 @@ const JobPanelSplit: React.FC = () => {
 
   const handleFilterChange = (updatedFilters: IFilterNavbar) => {
     setFilters(updatedFilters);
-    // más adelante podés aplicar lógica de filtrado acá
+    // lógica de filtrado acá
   };
 
+  // Al seleccionar un job en móvil abrimos el detalle
+  const handleSelectJob = (job: IJob) => {
+    setSelectedJob(job);
+    setIsDetailOpen(true);
+  };
+
+  // Para detectar tamaño y aplicar estilos específicos, uso Tailwind + media queries para renderizado condicional:
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 flex items-center justify-center p-8 pt-24">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 flex items-center justify-center p-4 pt-24 px-2 sm:px-4">
       <div className="w-full max-w-[1060px]">
         <NavbarFilterJob onFilterChange={handleFilterChange} />
-        <div className="h-[600px] flex bg-slate-900/80 backdrop-blur-sm rounded-xl border border-white/10 shadow-2xl overflow-hidden mt-4">
-          {/* Panel izquierdo - lista */}
-          <div className="w-1/3 overflow-y-auto border-r border-white/10 bg-slate-900/90 p-4 space-y-3">
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-7rem)] lg:h-[600px] bg-slate-900/80 backdrop-blur-sm rounded-xl border border-white/10 shadow-2xl overflow-hidden mt-4">
+          
+          {/* Lista - Visible siempre en desktop, en móvil depende del detalle */}
+          <div
+            className={`w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r overflow-y-auto bg-slate-900/90 p-4 space-y-3
+            ${isDetailOpen ? "hidden lg:block" : "block"}`}
+          >
             <div className="mb-4">
               <h2 className="text-lg font-semibold text-white mb-2">
                 Ofertas de Trabajo
@@ -47,15 +59,25 @@ const JobPanelSplit: React.FC = () => {
                 key={job.id}
                 job={job}
                 isSelected={job.id === selectedJob?.id}
-                onSelect={() => setSelectedJob(job)}
+                onSelect={() => handleSelectJob(job)}
               />
             ))}
           </div>
 
-          {/* Panel derecho - detalle */}
-          <div className="w-2/3 overflow-y-auto bg-slate-800/50">
+          {/* Detalle - Visible siempre en desktop, en móvil solo si isDetailOpen */}
+          <div
+            className={`w-full lg:w-2/3 overflow-y-auto bg-slate-800/50
+            ${isDetailOpen ? "block" : "hidden"} lg:block`}
+          >
             {selectedJob ? (
-              <div className="h-full">
+              <div className="h-full flex flex-col">
+                {/* Botón cerrar solo en móvil */}
+                <button
+                  className="lg:hidden self-end p-2 m-2 bg-slate-700 rounded-md text-white hover:bg-slate-600 transition"
+                  onClick={() => setIsDetailOpen(false)}
+                >
+                  Volver a la lista
+                </button>
                 <JobDetailView job={selectedJob} />
               </div>
             ) : (

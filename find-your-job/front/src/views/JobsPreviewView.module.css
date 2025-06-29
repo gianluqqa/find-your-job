@@ -1,0 +1,453 @@
+/* Animations */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-10px) rotate(5deg); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.5; 
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -15px, 0);
+  }
+  70% {
+    transform: translate3d(0, -7px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Main container */
+.container {
+  min-height: 120vh;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, rgba(209, 250, 229, 0.3) 50%, #f1f5f9 100%);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Content wrapper */
+.content {
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Background decorative elements */
+.bgDecor {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3rem);
+}
+
+.bgDecor1 {
+  top: 5rem;
+  left: 2.5rem;
+  width: 8rem;
+  height: 8rem;
+  background-color: rgba(167, 243, 208, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.bgDecor2 {
+  bottom: 5rem;
+  right: 2.5rem;
+  width: 12rem;
+  height: 12rem;
+  background-color: rgba(110, 231, 183, 0.15);
+  animation: pulse 2s infinite;
+  animation-delay: 1s;
+}
+
+/* Text section */
+.textSection {
+  flex: 1;
+  width: 100%;
+  transition: all 1s ease-out;
+}
+
+.textSection.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.textSection.hidden {
+  opacity: 0;
+  transform: translateX(-3rem);
+}
+
+/* Title */
+.titleContainer {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #065f46, #059669, #10b981);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+.titleDecor {
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgba(52, 211, 153, 0.3);
+  border-radius: 50%;
+  filter: blur(0.25rem);
+  animation: bounce 2s infinite;
+  animation-delay: 0.5s;
+}
+
+/* Description */
+.description {
+  color: #334155;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.3s;
+}
+
+.description.descriptionVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.description.descriptionHidden {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+/* Stats highlight */
+.statsHighlight {
+  font-weight: 700;
+  color: #065f46;
+  position: relative;
+  display: inline-block;
+}
+
+.statsText {
+  position: relative;
+  z-index: 10;
+}
+
+.statsUnderline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+  z-index: -10;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 1s ease-out;
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.5s;
+}
+
+.statsGrid.statsVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.statsGrid.statsHidden {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+
+/* Button */
+.button {
+  border-radius: 0.5rem;
+}
+
+/* Image section */
+.imageSection {
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.4s;
+}
+
+.imageSection.imageVisible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.imageSection.imageHidden {
+  opacity: 0;
+  transform: translateX(3rem) scale(0.95);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+}
+
+/* Floating elements */
+.floatingElement {
+  position: absolute;
+  animation: float 3s ease-in-out infinite;
+}
+
+.float1 {
+  top: -1.5rem;
+  left: -1.5rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(52, 211, 153, 0.2);
+  border-radius: 0.75rem;
+  transform: rotate(12deg);
+}
+
+.float2 {
+  bottom: -1rem;
+  right: -1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  animation-delay: 1s;
+}
+
+.float3 {
+  top: 50%;
+  left: -2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgba(110, 231, 183, 0.25);
+  border-radius: 0.375rem;
+  transform: rotate(45deg);
+  animation-delay: 0.5s;
+}
+
+/* Image wrapper */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.5s ease-out;
+  background: linear-gradient(135deg, #ffffff, rgba(209, 250, 229, 0.3));
+  padding: 0.5rem;
+}
+
+.imageWrapper:hover {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.35);
+  transform: scale(1.05);
+}
+
+/* Image */
+.image {
+  border-radius: 1rem;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  transition: transform 0.7s ease-out;
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.1);
+}
+
+/* Image overlay */
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6, 95, 70, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  border-radius: 1rem;
+}
+
+.imageWrapper:hover .imageOverlay {
+  opacity: 1;
+}
+
+/* Responsive Design */
+
+/* Mobile devices */
+@media (max-width: 640px) {
+  .container {
+    min-height: 100vh;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+  
+  .content {
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .description {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .statsGrid {
+    gap: 0.75rem;
+  }
+  
+  .bgDecor1 {
+    width: 4rem;
+    height: 4rem;
+    top: 2rem;
+    left: 1rem;
+  }
+  
+  .bgDecor2 {
+    width: 6rem;
+    height: 6rem;
+    bottom: 2rem;
+    right: 1rem;
+  }
+  
+  .float1 {
+    width: 2rem;
+    height: 2rem;
+    top: -1rem;
+    left: -1rem;
+  }
+  
+  .float2 {
+    width: 1.5rem;
+    height: 1.5rem;
+    bottom: -0.5rem;
+    right: -0.5rem;
+  }
+  
+  .float3 {
+    width: 1rem;
+    height: 1rem;
+    left: -1rem;
+  }
+}
+
+/* Tablet devices */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+  }
+  
+  .content {
+    padding: 3rem 1.5rem;
+    gap: 3rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  
+  .description {
+    text-align: center;
+  }
+  
+  .imageSection {
+    max-width: 24rem;
+  }
+}
+
+/* Desktop devices */
+@media (min-width: 1025px) {
+  .content {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .textSection {
+    max-width: 50%;
+  }
+  
+  .title {
+    font-size: 3.75rem;
+    text-align: left;
+  }
+  
+  .description {
+    text-align: left;
+  }
+  
+  .imageSection {
+    max-width: 45%;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1280px) {
+  .title {
+    font-size: 4rem;
+  }
+  
+  .description {
+    font-size: 1.25rem;
+  }
+  
+  .imageSection {
+    max-width: 30rem;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1536px) {
+  .container {
+    padding-top: 10rem;
+  }
+  
+  .content {
+    padding: 5rem 2rem;
+    gap: 5rem;
+  }
+  
+  .title {
+    font-size: 5rem;
+  }
+}

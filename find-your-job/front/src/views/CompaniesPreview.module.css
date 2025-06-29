@@ -1,0 +1,527 @@
+/* Estilos principales */
+.mainSection {
+  min-height: 90vh;
+  width: 100%;
+  background: linear-gradient(135deg, #0f172a, #064e3b, #1e293b);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.contentContainer {
+  padding: 3rem 1rem;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive padding */
+@media (min-width: 640px) {
+  .contentContainer {
+    padding: 4rem 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .contentContainer {
+    padding: 5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contentContainer {
+    padding: 5rem 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .contentContainer {
+    padding: 5rem 4rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .contentContainer {
+    padding: 5rem 5rem;
+  }
+}
+
+/* Decoraciones de fondo */
+.backgroundDecor1 {
+  position: absolute;
+  top: 1.25rem;
+  right: 2.5rem;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(52, 211, 153, 0.1);
+  border-radius: 50%;
+  filter: blur(2rem);
+  animation: pulse 2s infinite;
+}
+
+.backgroundDecor2 {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 1.25rem;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(16, 185, 129, 0.05);
+  border-radius: 50%;
+  filter: blur(2rem);
+  animation: pulse 2s infinite;
+  animation-delay: 1s;
+}
+
+.backgroundDecor3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12rem;
+  height: 12rem;
+  background: rgba(110, 231, 183, 0.05);
+  border-radius: 50%;
+  filter: blur(2rem);
+}
+
+/* Elementos flotantes */
+.floatingElement1 {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: rgba(52, 211, 153, 0.3);
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floatingElement2 {
+  position: absolute;
+  top: 4rem;
+  right: 4rem;
+  width: 1rem;
+  height: 1rem;
+  background: rgba(110, 231, 183, 0.25);
+  border-radius: 0.25rem;
+  transform: rotate(45deg);
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.floatingElement3 {
+  position: absolute;
+  bottom: 4rem;
+  left: 25%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: rgba(16, 185, 129, 0.4);
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Header Section */
+.headerSection {
+  text-align: center;
+  margin-bottom: 3rem;
+  transition: all 1s ease-out;
+}
+
+.headerTitleContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.headerTitle {
+  font-size: 1.875rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #6ee7b7, #a7f3d0, #34d399);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  padding: 0 0.5rem;
+}
+
+.headerPing {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background: rgba(52, 211, 153, 0.3);
+  border-radius: 50%;
+  animation: ping 1s infinite;
+}
+
+.headerSubtitle {
+  color: rgba(167, 243, 208, 0.8);
+  font-size: 1rem;
+  max-width: 20rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Carousel */
+.carouselSection {
+  position: relative;
+  margin-bottom: 3rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.3s;
+}
+
+.carouselContainer {
+  position: relative;
+  overflow: hidden;
+  height: 8rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.carouselTrack {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  transition: transform 0.02s linear;
+}
+
+.carouselItem {
+  width: 10rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.carouselLogo {
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: all 0.5s;
+  width: 6.25rem;
+  height: auto;
+}
+
+.carouselLogo:hover {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+.gradientLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5rem;
+  height: 100%;
+  background: linear-gradient(to right, #0f172a, rgba(6, 78, 59, 0.8), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gradientRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5rem;
+  height: 100%;
+  background: linear-gradient(to left, #0f172a, rgba(6, 78, 59, 0.8), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.shimmerEffect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: skewX(-12deg);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Stats Section */
+.statsSection {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.5s;
+}
+
+.statCard {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  transition: all 0.3s;
+}
+
+.statCard:hover {
+  border-color: rgba(52, 211, 153, 0.4);
+  transform: scale(1.05);
+}
+
+.statNumber {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #6ee7b7;
+  margin-bottom: 0.25rem;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: rgba(167, 243, 208, 0.8);
+}
+
+/* CTA Container */
+.ctaContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  transition: all 1s ease-out;
+  transition-delay: 0.7s;
+}
+
+/* Ads Container */
+.adsContainer {
+  width: 100%;
+  transition: all 1s ease-out;
+  transition-delay: 0.9s;
+}
+
+/* Animaciones */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-10px) rotate(5deg); 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    transform: translateX(-100%) skewX(-12deg); 
+  }
+  100% { 
+    transform: translateX(200%) skewX(-12deg); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Estados de visibilidad */
+.fadeInUp {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+
+/* Responsive Styles */
+@media (min-width: 640px) {
+  .backgroundDecor1 {
+    top: 2.5rem;
+    right: 5rem;
+    width: 12rem;
+    height: 12rem;
+    filter: blur(3rem);
+  }
+
+  .backgroundDecor2 {
+    bottom: 5rem;
+    left: 2.5rem;
+    width: 15rem;
+    height: 15rem;
+    filter: blur(3rem);
+  }
+
+  .backgroundDecor3 {
+    width: 18rem;
+    height: 18rem;
+    filter: blur(3rem);
+  }
+
+  .floatingElement1 {
+    top: 4rem;
+    left: 4rem;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .floatingElement2 {
+    top: 8rem;
+    right: 8rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .floatingElement3 {
+    bottom: 8rem;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .headerSection {
+    margin-bottom: 4rem;
+  }
+
+  .headerTitle {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .headerPing {
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .headerSubtitle {
+    font-size: 1.125rem;
+    max-width: 36rem;
+  }
+
+  .carouselSection {
+    margin-bottom: 4rem;
+  }
+
+  .carouselContainer {
+    height: 10rem;
+    border-radius: 1.5rem;
+  }
+
+  .carouselItem {
+    width: 12.5rem;
+    margin-right: 1.5rem;
+  }
+
+  .carouselLogo {
+    width: 8.75rem;
+  }
+
+  .gradientLeft, .gradientRight {
+    width: 8rem;
+  }
+
+  .statsSection {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .statCard {
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .statNumber {
+    font-size: 1.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .statLabel {
+    font-size: 1rem;
+  }
+
+  .ctaContainer {
+    margin-bottom: 4rem;
+  }
+
+  .floatingElement1 {
+    animation: float 4s ease-in-out infinite;
+  }
+}
+
+@media (min-width: 768px) {
+  .backgroundDecor1 {
+    width: 16rem;
+    height: 16rem;
+  }
+
+  .backgroundDecor2 {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .backgroundDecor3 {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .headerTitle {
+    font-size: 3rem;
+  }
+
+  .headerSubtitle {
+    font-size: 1.25rem;
+    max-width: 42rem;
+  }
+
+  .carouselContainer {
+    height: 12rem;
+  }
+
+  .carouselItem {
+    width: 13.75rem;
+    margin-right: 2rem;
+  }
+
+  .carouselLogo {
+    width: 11.25rem;
+  }
+
+  .gradientLeft, .gradientRight {
+    width: 10rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .headerTitle {
+    font-size: 3.75rem;
+  }
+
+  .headerSubtitle {
+    max-width: 48rem;
+  }
+
+  .statsSection {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .headerTitle {
+    font-size: 4.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .headerTitle {
+    font-size: 4.5rem;
+  }
+}

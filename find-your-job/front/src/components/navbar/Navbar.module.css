@@ -1,0 +1,15 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  transition: all 0.5s ease-out;
+}
+
+.scrolled {
+  background-color: rgba(31, 41, 55, 0.9); /* bg-slate-800/90 */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(20, 184, 166, 0.2); /* border-emerald-700/20 */
+}
