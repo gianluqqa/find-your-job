@@ -9,7 +9,7 @@ interface ProfileHeroSectionProps {
 
 const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({ candidateData }) => {
   return (
-    <div className="bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-slate-600/30 shadow-2xl overflow-hidden mb-6 sm:mb-8">
+    <div className="bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-lg sm:rounded-lg border border-slate-600/30 shadow-2xl overflow-hidden mb-6 sm:mb-8">
       <div className="p-6 sm:p-8 lg:p-12">
         <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8">
           {/* Profile Image Section */}

@@ -3,7 +3,7 @@ import { IRecruiterCompany } from "src/interfaces/IRecruiterCompany";
 export const CompaniesArray: IRecruiterCompany[] = [
   {
     "id": "1",
-    "src": "/google.png",
+    "image": "/google.png",
     "name": "Google",
     "alt": "Google logo",
     "jobs": [
@@ -53,7 +53,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "2",
-    "src": "/mcdonalds.png",
+    "image": "/mcdonalds.png",
     "name": "McDonalds",
     "alt": "McDonalds logo",
     "jobs": [
@@ -103,7 +103,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "3",
-    "src": "/amazon.png",
+    "image": "/amazon.png",
     "name": "Amazon",
     "alt": "Amazon logo",
     "jobs": [
@@ -153,7 +153,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "4",
-    "src": "/visa.png",
+    "image": "/visa.png",
     "name": "Visa",
     "alt": "Visa logo",
     "jobs": [
@@ -203,7 +203,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "5",
-    "src": "/apple.png",
+    "image": "/apple.png",
     "name": "Apple",
     "alt": "Apple logo",
     "jobs": [
@@ -253,7 +253,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "6",
-    "src": "/samsung.webp",
+    "image": "/samsung.webp",
     "name": "Samsung",
     "alt": "Samsung logo",
     "jobs": [
@@ -303,7 +303,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "7",
-    "src": "/coca-cola.png",
+    "image": "/coca-cola.png",
     "name": "Coca Cola",
     "alt": "Coca Cola logo",
     "jobs": [
@@ -353,7 +353,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "8",
-    "src": "/mercadolibre.png",
+    "image": "/mercadolibre.png",
     "name": "Mercado Libre",
     "alt": "Mercado Libre logo",
     "jobs": [
@@ -403,7 +403,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "9",
-    "src": "/nike.png",
+    "image": "/nike.png",
     "name": "Nike",
     "alt": "Nike logo",
     "jobs": [
@@ -453,7 +453,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "10",
-    "src": "/carrefour.png",
+    "image": "/carrefour.png",
     "name": "Carrefour",
     "alt": "Carrefour logo",
     "jobs": [
@@ -503,7 +503,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "11",
-    "src": "/microsoft.png",
+    "image": "/microsoft.png",
     "name": "Microsoft",
     "alt": "Microsoft logo",
     "jobs": [
@@ -553,7 +553,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "12",
-    "src": "/meta.png",
+    "image": "/meta.png",
     "name": "Meta",
     "alt": "Meta logo",
     "jobs": [
@@ -603,7 +603,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "13",
-    "src": "/x.webp",
+    "image": "/x.webp",
     "name": "X",
     "alt": "X logo",
     "jobs": [
@@ -653,7 +653,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "14",
-    "src": "/adidas.png",
+    "image": "/adidas.png",
     "name": "Adidas",
     "alt": "Adidas logo",
     "jobs": [
@@ -703,7 +703,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "15",
-    "src": "/netflix.webp",
+    "image": "/netflix.webp",
     "name": "Netflix",
     "alt": "Netflix logo",
     "jobs": [
@@ -753,7 +753,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "16",
-    "src": "/paypal.webp",
+    "image": "/paypal.webp",
     "name": "PayPal",
     "alt": "PayPal logo",
     "jobs": [
@@ -803,7 +803,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "17",
-    "src": "/intel.png",
+    "image": "/intel.png",
     "name": "Intel",
     "alt": "Intel logo",
     "jobs": [
@@ -853,7 +853,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "18",
-    "src": "/uber.png",
+    "image": "/uber.png",
     "name": "Uber",
     "alt": "Uber logo",
     "jobs": [
@@ -903,7 +903,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "19",
-    "src": "/starbucks.png",
+    "image": "/starbucks.png",
     "name": "Starbucks",
     "alt": "Starbucks logo",
     "jobs": [
@@ -953,7 +953,7 @@ export const CompaniesArray: IRecruiterCompany[] = [
   },
   {
     "id": "20",
-    "src": "/spotify.png",
+    "image": "/spotify.png",
     "name": "Spotify",
     "alt": "Spotify logo",
     "jobs": [
