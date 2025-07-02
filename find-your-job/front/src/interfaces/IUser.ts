@@ -1,4 +1,5 @@
 import { IAptitude } from "./IAptitude";
+import { ICertificate } from "./ICertificate";
 import { IExperience } from "./IExperience";
 import { IJob } from "./IJob";
 import { ILanguage } from "./ILanguage";
@@ -27,6 +28,7 @@ export interface IUser {
   postulations?: IPostulation[];
   experience?: IExperience[];
   studies?: IStudy[];
+  certificates?: ICertificate[];
   resume?: IResume;
   languages?: ILanguage[];
 

@@ -14,7 +14,7 @@ interface ApplicationsSectionProps {
 
 const ApplicationsSection: React.FC<ApplicationsSectionProps> = ({ postulations }) => {
   return (
-    <div className="bg-gradient-to-br from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-600/30 shadow-xl overflow-hidden">
+    <div className="bg-gradient-to-br from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-lg border border-slate-600/30 shadow-xl overflow-hidden">
       <div className="bg-gradient-to-r from-blue-800/60 to-slate-700/60 p-4 sm:p-6 border-b border-slate-600/30">
         <div className="flex items-center gap-3 sm:gap-4">
           <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-700 rounded-lg sm:rounded-xl flex items-center justify-center">

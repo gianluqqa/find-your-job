@@ -1,8 +1,8 @@
 import React from "react";
-import RegisterView from "src/views/RegisterView";
+import TypeOfUserView from "src/views/TypeOfUserView";
 
 const RegisterPage = () => {
-  return <RegisterView />;
+  return <TypeOfUserView />;
 };
 
 export default RegisterPage;

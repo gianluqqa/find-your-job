@@ -5,7 +5,7 @@ import ProfessionalDPreview from "src/views/ProfessionalDPreviewView";
 
 export default function Home() {
   return (
-    <>
+      <>
       <JobsPreviewView />
       <CompaniesPreviewView />
       <AboutUsView />
