@@ -8,9 +8,9 @@ export interface ICandidate {
   email: string;
   phone?: string;
   country: string;
-  state: string;
-  city: string;
-  about: string;
-  skills: ISkills[];
-  postulations: IPostulation[];
+  state?: string;
+  city?: string;
+  about?: string;
+  skills?: ISkills[];
+  postulations?: IPostulation[];
 }

@@ -68,13 +68,6 @@ const RecruiterType: React.FC<RecruiterTypeProps> = ({ isSelected, onSelect }) =
               </div>
             ))}
           </div>
-
-          <div className="flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/10 group-hover:bg-white/15 transition-all duration-300">
-            <span className="text-white font-semibold text-sm sm:text-base">
-              {isSelected ? 'Selected' : 'Select'}
-            </span>
-            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-          </div>
         </div>
       </div>
     </div>

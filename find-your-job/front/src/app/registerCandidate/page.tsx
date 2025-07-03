@@ -1,8 +1,11 @@
 import React from 'react'
+import RegisterCandidateView from 'src/views/RegisterCandidateView'
 
 const RegisterCandidatePage = () => {
   return (
-    <div>RegisterCandidatePage</div>
+    <div>
+      <RegisterCandidateView />
+    </div>
   )
 }
 

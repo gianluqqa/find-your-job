@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import { ILogin } from "src/interfaces/ILogin";
-import { validateLogin } from "src/helpers/validateLogin";
+import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { getUser, fakeLogin } from "src/helpers/authFunctions";
-import styles from "./LoginView.module.css";
+import React, { useEffect, useState } from "react";
 import Button1 from "src/components/ui/Button1";
+import { fakeLogin, getUser } from "src/helpers/authFunctions";
+import { validateLogin } from "src/helpers/validateLogin";
+import { ILogin } from "src/interfaces/ILogin";
+import styles from "./LoginView.module.css";
 
 const initialValues: ILogin = {
   email: "",

@@ -3,7 +3,9 @@ export interface IRegister {
   email: string;
   password: string;
   confirmPassword: string;
-  role: "candidate" | "recruiter";
+  role?: "candidate" | "recruiter";
+  company?: string;
+  category?: string;
   country: string;
   state: string;     
   city: string;

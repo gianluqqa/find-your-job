@@ -1,7 +1,8 @@
 import { IRegister } from "src/interfaces/IRegister";
+import { IRegisterErrors } from "src/interfaces/IRegisterErrors";
 
-export const validateRegister = (values: IRegister) => {
-  const errors: Partial<Record<keyof IRegister, string>> = {};
+export const validateRegister = (values: IRegister): IRegisterErrors => {
+  const errors: IRegisterErrors = {};
 
   if (!values.name) errors.name = "Name is required";
   if (!values.email) errors.email = "Email is required";
@@ -12,9 +13,6 @@ export const validateRegister = (values: IRegister) => {
 
   if (!values.confirmPassword) errors.confirmPassword = "Confirming password is required";
   else if (values.password !== values.confirmPassword) errors.confirmPassword = "Passwords do not match";
-
-  if (!values.role) errors.role = "Role is required";
-  else if (!["candidate", "recruiter"].includes(values.role)) errors.role = "Invalid role";
 
   if (!values.country) errors.country = "Country is required";
   if (!values.state) errors.state = "State is required";
