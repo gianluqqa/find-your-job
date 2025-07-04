@@ -1,5 +1,6 @@
 import { IAptitude } from "./IAptitude";
 import { ICertificate } from "./ICertificate";
+import { ICompany } from "./ICompany";
 import { IExperience } from "./IExperience";
 import { IJob } from "./IJob";
 import { ILanguage } from "./ILanguage";
@@ -21,19 +22,19 @@ export interface IUser {
   phone?: string;
   about?: string;
   image?: string;
+  skills?: ISkills[];
+  studies?: IStudy[];
+  certificates?: ICertificate[];
 
   // Solo para candidatos
-  skills?: ISkills[];
   aptitudes?: IAptitude[];
   postulations?: IPostulation[];
   experience?: IExperience[];
-  studies?: IStudy[];
-  certificates?: ICertificate[];
   resume?: IResume;
   languages?: ILanguage[];
 
   // Solo para reclutadores
-  company?: string;
+  company?: ICompany[];
   jobs?: IJob[];
 
   // Token (si usás auth real en el futuro)

@@ -3,6 +3,8 @@ export interface IRegisterErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  company?: string;
+  category?: string;
   country?: string;
   state?: string;
   city?: string;

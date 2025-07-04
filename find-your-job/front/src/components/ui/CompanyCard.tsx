@@ -1,8 +1,7 @@
 import React from "react";
-import { IRecruiterCompany } from "src/interfaces/IRecruiterCompany";
-
+import { ICompany } from "src/interfaces/ICompany";
 interface Props {
-  company: IRecruiterCompany;
+  company: ICompany;
   index: number;
 }
 
@@ -41,7 +40,7 @@ const CompanyCard = ({ company, index }: Props) => {
               <div className="w-full h-full bg-white/10 backdrop-blur-sm rounded-xl p-3 shadow-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300 flex items-center justify-center">
                 <img
                   src={company.image}
-                  alt={company.alt || company.name}
+                  alt={company.name}
                   className="max-w-full max-h-full object-contain filter brightness-110 contrast-125"
                 />
               </div>

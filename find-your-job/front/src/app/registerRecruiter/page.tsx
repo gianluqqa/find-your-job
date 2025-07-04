@@ -1,7 +1,11 @@
-import React from 'react'
+import RegisterRecruiterView from "src/views/RegisterRecruiterView";
 
-export const RegisterRecruiterPage = () => {
+const RegisterRecruiterPage = () => {
   return (
-    <div>RegisterRecruiterPage</div>
-  )
-}
+    <div>
+      <RegisterRecruiterView />
+    </div>
+  );
+};
+
+export default RegisterRecruiterPage;

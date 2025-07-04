@@ -4,7 +4,7 @@ export interface IJob {
   description: string;
   company: string;
   location: string;
-  category: string;
+  category?: string;
   salary?: string;
   createdAt: string;
   status: "Active" | "Expired" | "Urgent";
