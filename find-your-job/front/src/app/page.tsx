@@ -1,4 +1,4 @@
-import CompaniesPreviewView from "./companiespreview/page";
+import CompaniesPreviewView from "./companies-preview/page";
 import AboutUsView from "src/views/AboutUsView";
 import JobsPreviewView from "src/views/JobsPreviewView";
 import ProfessionalDPreview from "src/views/ProfessionalDPreviewView";

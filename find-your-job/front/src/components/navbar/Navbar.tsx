@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getUser } from "src/helpers/authFunctions";
-import { IUser, BackButtonProps, MobileMenuButtonProps } from "../../interfaces/INavbar";
+import { IUser } from "../../interfaces/INavbar";
 import BackButton from "./BackButton";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import SearchInputs from "./SearchInputs";
 import AuthButtons from "./AuthButtons";
 import MobileMenuButton from "./MobileMenuButton";
-import styles from './Navbar.module.css';
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,14 +46,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
+    <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ""}`}>
       <div className="max-w-7xl mx-auto px-6 py-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BackButton 
-              isHomePage={isHomePage} 
-              handleGoBack={handleGoBack} 
-            />
+            <BackButton isHomePage={isHomePage} handleGoBack={handleGoBack} />
             <Logo />
           </div>
           <div className="hidden lg:flex items-center gap-8">

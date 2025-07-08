@@ -1,10 +1,9 @@
 import React from "react";
-import DashboardCandidateView from "src/views/DashboardCandidateView";
 
 const CandidatePage = () => {
   return (
     <div>
-      <DashboardCandidateView />
+      Panel de candidatos
     </div>
   );
 };

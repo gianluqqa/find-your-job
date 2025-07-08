@@ -1,17 +1,43 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { NavLinkItem } from "../../interfaces/INavbar";
+import { getCurrentRole } from "src/helpers/authFunctions";
 
 const NavLinks: React.FC = () => {
-  const links: NavLinkItem[] = [
+  const [role, setRole] = useState<"candidate" | "recruiter" | null>(null);
+
+  useEffect(() => {
+    const currentRole = getCurrentRole();
+    setRole(currentRole);
+  }, []);
+
+  const publicLinks: NavLinkItem[] = [
     { href: "#jobspreview", label: "Jobs" },
     { href: "#companiespreview", label: "Companies" },
     { href: "#aboutus", label: "About Us" },
     { href: "#professionaldpreview", label: "Professional Development" },
   ];
 
+  const candidateLinks: NavLinkItem[] = [
+    { href: "/jobs", label: "Jobs" },
+    { href: "/companies", label: "Companies" },
+    { href: "/professionaldev", label: "Professional Development" },
+    { href: "/applications", label: "My Applications" },
+  ];
+
+  const recruiterLinks: NavLinkItem[] = [
+    { href: "/dashboard-recruiter", label: "Dashboard" },
+    { href: "/post-a-job", label: "Post a Job" },
+    { href: "/my-jobs", label: "My Jobs" },
+    { href: "/candidates", label: "Candidates" },
+  ];
+
+  const linksToRender = role === "candidate" ? candidateLinks : role === "recruiter" ? recruiterLinks : publicLinks;
+
   return (
     <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 text-emerald-100 text-sm font-medium">
-      {links.map((link) => (
+      {linksToRender.map((link) => (
         <li key={link.label}>
           <a
             href={link.href}
