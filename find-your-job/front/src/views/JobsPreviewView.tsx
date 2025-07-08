@@ -11,29 +11,15 @@ const JobsPreviewView = () => {
   const [statsCount, setStatsCount] = useState(0)
   const sectionRef = useRef(null)
 
+  // Observador más sensible
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          // Animate counter
-          let start = 0
-          const end = 1200
-          const duration = 2000
-          const increment = end / (duration / 50)
-          
-          const timer = setInterval(() => {
-            start += increment
-            if (start >= end) {
-              setStatsCount(end)
-              clearInterval(timer)
-            } else {
-              setStatsCount(Math.floor(start))
-            }
-          }, 50)
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     )
 
     if (sectionRef.current) {
@@ -42,6 +28,28 @@ const JobsPreviewView = () => {
 
     return () => observer.disconnect()
   }, [])
+
+  // Animación del contador separada
+  useEffect(() => {
+    if (!isVisible) return
+
+    let start = 0
+    const end = 1200
+    const duration = 1000
+    const increment = end / (duration / 20)
+
+    const timer = setInterval(() => {
+      start += increment
+      if (start >= end) {
+        setStatsCount(end)
+        clearInterval(timer)
+      } else {
+        setStatsCount(Math.floor(start))
+      }
+    }, 20)
+
+    return () => clearInterval(timer)
+  }, [isVisible])
 
   return (
     <section
@@ -53,25 +61,14 @@ const JobsPreviewView = () => {
         {/* Background decorative elements */}
         <div className={`${styles.bgDecor} ${styles.bgDecor1}`}></div>
         <div className={`${styles.bgDecor} ${styles.bgDecor2}`}></div>
-        
-        {/* Content */}
-        <div className={`${styles.textSection} ${
-          isVisible 
-            ? styles.visible 
-            : styles.hidden
-        }`}>
+
+        <div className={`${styles.textSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.titleContainer}>
-            <h2 className={styles.title}>
-              Find Your Ideal Job
-            </h2>
+            <h2 className={styles.title}>Find Your Ideal Job</h2>
             <div className={styles.titleDecor}></div>
           </div>
-          
-          <p className={`${styles.description} ${
-            isVisible 
-              ? styles.descriptionVisible 
-              : styles.descriptionHidden
-          }`}>
+
+          <p className={styles.description}>
             Browse thousands of job opportunities tailored to your skills and interests. With over{' '}
             <span className={styles.statsHighlight}>
               <span className={styles.statsText}>{statsCount.toLocaleString()} new applications submitted daily</span>
@@ -79,34 +76,22 @@ const JobsPreviewView = () => {
             </span>, our platform connects you with companies actively looking for talent like you. Don&apos;t wait—your next opportunity might be just a click away.
           </p>
 
-          {/* Stats cards */}
-          <div className={`${styles.statsGrid} ${
-            isVisible 
-              ? styles.statsVisible 
-              : styles.statsHidden
-          }`}>
+          <div className={styles.statsGrid}>
             <StatsCard value="15K+" label="Active Jobs" />
             <StatsCard value="5K+" label="Companies" delay={100} />
           </div>
-          
+
           <Button1 className={styles.button} href="/jobs" isVisible={isVisible}>
             Explore Jobs
           </Button1>
         </div>
 
-        {/* Image section */}
-        <div className={`${styles.imageSection} ${
-          isVisible 
-            ? styles.imageVisible 
-            : styles.imageHidden
-        }`}>
+        <div className={`${styles.imageSection} ${isVisible ? styles.imageVisible : ''}`}>
           <div className={styles.imageContainer}>
-            {/* Floating elements around image */}
             <div className={`${styles.floatingElement} ${styles.float1}`}></div>
             <div className={`${styles.floatingElement} ${styles.float2}`}></div>
             <div className={`${styles.floatingElement} ${styles.float3}`}></div>
-            
-            {/* Main image container */}
+
             <div className={styles.imageWrapper}>
               <Image
                 src="/Job1.jpg"
@@ -115,19 +100,16 @@ const JobsPreviewView = () => {
                 height={350}
                 className={styles.image}
               />
-              
-              {/* Overlay gradient */}
               <div className={styles.imageOverlay}></div>
             </div>
 
-            {/* Floating notification card */}
             <NotificationCard 
               title="New job posted"
               subtitle="Senior Developer • Remote"
               isVisible={isVisible}
               variant="floating"
               position="bottom-left"
-              delay={1000}
+              delay={800}
             />
           </div>
         </div>

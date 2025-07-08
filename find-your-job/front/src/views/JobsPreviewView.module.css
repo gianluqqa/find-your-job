@@ -108,7 +108,7 @@
 .title {
   font-size: 3rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #065f46, #059669, #10b981);
+  background: linear-gradient(135deg, #065f46, #059669, #065f46);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -451,3 +451,4 @@
     font-size: 5rem;
   }
 }
+

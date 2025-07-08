@@ -2,7 +2,6 @@
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Button1 from "src/components/ui/Button1";
 import { fakeLogin, getUser } from "src/helpers/authFunctions";
 import { validateLogin } from "src/helpers/validateLogin";
 import { ILogin } from "src/interfaces/ILogin";
