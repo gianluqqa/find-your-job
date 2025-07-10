@@ -1,4 +1,5 @@
 export interface IStudy {
+  id: string;
   institution: string;
   degree: string;
   field?: string;

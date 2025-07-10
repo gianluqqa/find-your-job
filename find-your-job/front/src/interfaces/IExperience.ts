@@ -1,4 +1,5 @@
 export interface IExperience {
+  id?: string;
   title: string;
   company: string;
   startDate: string; // ISO: YYYY-MM-DD

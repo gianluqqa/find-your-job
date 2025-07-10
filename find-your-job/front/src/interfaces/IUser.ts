@@ -13,7 +13,7 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
-  role: "candidate" | "recruiter";
+  role?: "candidate" | "recruiter";
 
   // Datos comunes
   country: string;

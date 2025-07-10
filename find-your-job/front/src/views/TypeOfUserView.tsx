@@ -64,8 +64,8 @@ const TypeOfUserView: React.FC = () => {
                 <a
                   href={
                     selectedRole === "candidate"
-                      ? "/registerCandidate"
-                      : "/registerRecruiter"
+                      ? "/register-candidate"
+                      : "/register-recruiter"
                   }                >
                   Continue as{" "}
                   {selectedRole === "candidate" ? "Candidate" : "Recruiter"}

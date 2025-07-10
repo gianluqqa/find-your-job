@@ -1,5 +1,6 @@
 import React from "react";
 import { Heart, Users, Target } from "lucide-react";
+import CandidateCard from "src/components/ui/CandidateCard";
 
 const AboutUsView = () => {
   return (
@@ -46,6 +47,8 @@ const AboutUsView = () => {
             </p>
           </div>
         </div>
+
+        <CandidateCard/>
 
         {/* Values */}
         <div className="grid md:grid-cols-3 gap-6">

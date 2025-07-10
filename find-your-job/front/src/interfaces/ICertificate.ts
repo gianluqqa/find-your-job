@@ -1,6 +1,6 @@
 export interface ICertificate {
-  id: string;
+  id?: string;
   title: string;
   institution: string;
-  graduationDate: Date;
+  graduationDate: string;
 }
