@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { NavLinkItem } from "../../interfaces/INavbar";
 import { getCurrentRole } from "src/helpers/authFunctions";
@@ -30,7 +29,6 @@ const NavLinks: React.FC = () => {
     { href: "/dashboard-recruiter", label: "Dashboard" },
     { href: "/post-a-job", label: "Post a Job" },
     { href: "/my-jobs", label: "My Jobs" },
-    { href: "/candidates", label: "Candidates" },
   ];
 
   const linksToRender = role === "candidate" ? candidateLinks : role === "recruiter" ? recruiterLinks : publicLinks;

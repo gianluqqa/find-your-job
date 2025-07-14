@@ -2,7 +2,6 @@ import { IAptitude } from "./IAptitude";
 import { ICertificate } from "./ICertificate";
 import { ICompany } from "./ICompany";
 import { IExperience } from "./IExperience";
-import { IJob } from "./IJob";
 import { ILanguage } from "./ILanguage";
 import { IPostulation } from "./IPostulation";
 import { IResume } from "./IResume";
@@ -13,7 +12,7 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
-  role?: "candidate" | "recruiter";
+  role?: "candidate" | "recruiter" | "admin";
 
   // Datos comunes
   country: string;
@@ -25,7 +24,8 @@ export interface IUser {
   skills?: ISkills[];
   studies?: IStudy[];
   certificates?: ICertificate[];
-
+  status?: "active" | "suspended";
+  
   // Solo para candidatos
   aptitudes?: IAptitude[];
   postulations?: IPostulation[];
@@ -35,7 +35,6 @@ export interface IUser {
 
   // Solo para reclutadores
   company?: ICompany[];
-  jobs?: IJob[];
 
   // Token (si usás auth real en el futuro)
   token?: string;

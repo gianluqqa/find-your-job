@@ -80,15 +80,6 @@ const AdsView: React.FC = () => {
             </div>
           </div>
         </header>
-
-        {/* Main Content - AdsCard */}
-        <main className={`${styles.mainContent} ${styles.fadeInUp} ${styles.fadeInUpDelay700} ${
-          isVisible 
-            ? styles.fadeInUpVisible
-            : styles.fadeInUpHidden
-        }`}>
-          <AdsCard />
-        </main>
       </div>
 
       {/* Background Decorative Elements */}

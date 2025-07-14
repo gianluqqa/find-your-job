@@ -24,9 +24,9 @@ const AuthButtons = () => {
   if (role === "candidate") {
     return (
       <div className="flex items-center gap-4">
-        <Link href={"/profile"}>
+        <Link href={"/dashboard/candidate"}>
           <button className="text-emerald-100 text-sm font-medium hover:text-emerald-300 transition-colors duration-300 px-4 py-2 rounded-lg hover:bg-emerald-800/20">
-            Profile
+            Candidate Profile
           </button>
         </Link>
         <Button2 onClick={handleLogout} className="rounded-lg">
@@ -39,9 +39,9 @@ const AuthButtons = () => {
   if (role === "recruiter") {
     return (
       <div className="flex items-center gap-4">
-        <Link href={"/company-profile"}>
+        <Link href={"/dashboard/recruiter"}>
           <button className="text-emerald-100 text-sm font-medium hover:text-emerald-300 transition-colors duration-300 px-4 py-2 rounded-lg hover:bg-emerald-800/20">
-            Company Profile
+            Recruiter Profile
           </button>
         </Link>
         <Button1 onClick={handleLogout} className="rounded-lg">

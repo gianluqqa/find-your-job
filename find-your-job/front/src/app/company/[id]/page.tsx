@@ -1,12 +1,13 @@
-import React from 'react'
-import DashboardRecruiterView from 'src/views/DashboardRecruiterView'
+import React from "react";
+import { IPropsId } from "src/interfaces/IPropsId";
+import CompanyView from "src/views/CompanyView";
 
-const RecruiterPage = () => {
+const RecruiterPage = ({ params }: IPropsId) => {
   return (
     <div>
-      <DashboardRecruiterView />
+      <CompanyView params={params} />
     </div>
-  )
-}
+  );
+};
 
-export default RecruiterPage
+export default RecruiterPage;
