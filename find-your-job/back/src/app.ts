@@ -1,9 +1,9 @@
 import express from "express";
-import userRoutes from "./routes/UserRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 
 app.use(express.json());
-app.use("/", userRoutes);  // Rutas sin prefijo, accedés directo con /users
+app.use("/users", userRoutes); 
 
 export default app;

@@ -1,15 +1,44 @@
 import { Request, Response } from "express";
-import { UserService } from "../services/UserService";
+import { createUserService, getAllUsersService, loginService } from "../services/userService";
 
-const userService = new UserService();
-
-export class UserController {
-  async createUser(req: Request, res: Response) {
-    try {
-      const user = await userService.createUser(req.body);
-      res.status(201).json(user);
-    } catch (error) {
-      res.status(400).json({ message: "Error creando usuario", error });
-    }
+// Encargado de ejecutar la funcion para crear un usuario.
+export const registerUserController = async (req: Request, res: Response) => {
+  try {
+    const newUser = await createUserService(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
-}
+};
+
+// Encargado de ejecutar la funcion para obtener todos los usuarios.
+export const getAllUsersController = async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUsersService();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching users" });
+  }
+};
+
+// Encargado de ejecutar la funcion para iniciar sesión.
+export const loginController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await loginService(email, password);
+
+    if (!user) {
+      console.log(`loginController: Falló inicio de sesión para email: ${email}`);
+      return res.status(401).json({ message: "Email o contraseña incorrectos" });
+    }
+
+    console.log(`loginController: Inicio de sesión exitoso para email: ${email}`);
+    return res.json({ message: "Inicio de sesión exitoso", user });
+  } catch (error) {
+    console.error("loginController: Error en el servidor durante el inicio de sesión:", error);
+    return res.status(500).json({ message: "Error en el servidor durante el inicio de sesión" });
+  }
+};

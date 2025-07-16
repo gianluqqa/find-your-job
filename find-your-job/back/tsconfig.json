@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                  // Para usar features modernas de JS
+    "module": "commonjs",                 // Node.js usa commonjs
+    "outDir": "./dist",                   // Carpeta de salida
+    "rootDir": "./src",                   // Carpeta de código fuente
+    "strict": true,                       // Tipado estricto
+    "esModuleInterop": true,              // Para importar paquetes CommonJS
+    "skipLibCheck": true,                 // Evita revisar tipos de node_modules
+    "experimentalDecorators": true,       // Necesario para TypeORM y decorators
+    "emitDecoratorMetadata": true,        // Necesario para TypeORM
+    "forceConsistentCasingInFileNames": true,  // Evita problemas en Linux vs Windows
+    "moduleResolution": "node",           // Resolución de módulos tipo Node
+    "resolveJsonModule": true,            // Para poder importar JSON si querés
+    "noImplicitAny": false,                // (opcional) si querés ser menos estricto
+    "allowSyntheticDefaultImports": true  // Permite importaciones por defecto
+  },
+  "include": ["src"],                     // Incluye carpeta src
+  "exclude": ["node_modules", "dist"]     // Excluye estas carpetas
+}
+

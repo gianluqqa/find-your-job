@@ -28,6 +28,9 @@ export class User {
   @Column({ unique: true })
   email!: string;
 
+  @Column()
+  password!: string;
+
   @Column({ default: "candidate" })
   role!: "candidate" | "recruiter" | "admin";
 
