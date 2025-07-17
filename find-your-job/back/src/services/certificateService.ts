@@ -28,3 +28,35 @@ export const getAllCertificatesByUserService = async (userId: string) => {
     where: { user: { id: userId } }
   });
 };
+
+export const updateCertificateService = async (certificateId: string,updateData: Partial<CertificateDto>
+) => {
+  const certificateRepository = AppDataSource.getRepository(Certificate);
+
+  const certificate = await certificateRepository.findOneBy({ id: certificateId });
+
+  if (!certificate) {
+    throw new Error("Certificado no encontrado");
+  }
+
+  // Actualiza solo los campos que vienen
+  Object.assign(certificate, updateData);
+
+  await certificateRepository.save(certificate);
+
+  return certificate;
+};
+
+export const deleteCertificateService = async (certificateId: string) => {
+  const certificateRepository = AppDataSource.getRepository(Certificate);
+
+  const certificate = await certificateRepository.findOneBy({ id: certificateId });
+
+  if (!certificate) {
+    throw new Error("Certificado no encontrado");
+  }
+
+  await certificateRepository.remove(certificate);
+
+  return { message: "Certificado eliminado correctamente" };
+};

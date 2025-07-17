@@ -1,10 +1,12 @@
+import { CategoryDto } from "./category.dto";
+
 export interface JobDto {
   id: string;
   title: string;
   description: string;
   company: string;
   location: string;
-  category?: string;
+  category?: CategoryDto;
   salary?: string;
   createdAt: string;
   status: "Active" | "Expired" | "Urgent";
@@ -13,4 +15,5 @@ export interface JobDto {
   vacancies?: number;
   requirements?: string;
   benefits?: string;
+  companyId?: string;
 }

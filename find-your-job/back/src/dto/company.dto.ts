@@ -8,4 +8,5 @@ export interface CompanyDto {
   category?: CategoryDto;
   description?: string;
   jobs?: JobDto[];
+  recruiterId?: string;
 }

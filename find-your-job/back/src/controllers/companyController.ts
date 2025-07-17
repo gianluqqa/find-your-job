@@ -4,17 +4,15 @@ import { createCompanyService, getAllCompaniesService, getCompanyByIdService } f
 // Encargado de ejecutar la funcion para crear una compañia.
 export const createCompanyController = async (req: Request, res: Response) => {
   try {
-    const { name, image, description, category } = req.body;
-    console.log("📥 Datos recibidos para crear compañía:", req.body);
-
-    const newCompany = await createCompanyService({ name, image, description, category });
-
+    const { name, image, description, category, recruiterId } = req.body;
+    const newCompany = await createCompanyService({ name, image, description, category, recruiterId });
     res.status(201).json(newCompany);
   } catch (error) {
     console.error("❌ Error al crear compañía:", error);
     res.status(500).json({ message: "Error al crear compañía", error: (error as Error).message });
   }
 };
+
 
 // Encargado de ejecutar la funcion para obtener todos los usuarios.
 export const getAllCompaniesController = async (req: Request, res: Response) => {

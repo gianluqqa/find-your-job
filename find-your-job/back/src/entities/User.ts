@@ -16,6 +16,7 @@ import { Experience } from "./Experience";
 import { Resume } from "./Resume";
 import { Language } from "./Language";
 import { Company } from "./Company";
+import { Job } from "./Job";
 
 @Entity()
 export class User {
@@ -85,4 +86,7 @@ export class User {
   // Solo recruiter
   @OneToMany(() => Company, (company) => company.recruiter)
   companies?: Company[];
+
+  @OneToMany(() => Job, (job) => job.recruiter)
+  jobs!: Job[];
 }

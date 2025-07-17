@@ -2,35 +2,24 @@ import { AppDataSource } from "../config/data-source";
 import { Company } from "../entities/Company";
 import { Category } from "../entities/Category";
 import { CompanyDto } from "../dto/company.dto";
+import { User } from "../entities/User";
 
 //Funcion para crear una compañia.
-export const createCompanyService = async (companyData: CompanyDto) => {
-  const { name, image, description, category } = companyData;
+export const createCompanyService = async ({ name, image, description, category, recruiterId }: CompanyDto) => {
+  const companyRepo = AppDataSource.getRepository(Company);
+  const categoryRepo = AppDataSource.getRepository(Category);
+  const userRepo = AppDataSource.getRepository(User);
 
-  const companyRepository = AppDataSource.getRepository(Company);
-  const categoryRepository = AppDataSource.getRepository(Category);
+  const foundCategory = await categoryRepo.findOneBy({ name: category as any });
+  if (!foundCategory) throw new Error("Categoría no encontrada");
 
-  console.log("🔎 Buscando categoría en la base:", category);
-  const foundCategory = await categoryRepository.findOneBy({ name: category as any });
+  const recruiter = await userRepo.findOneBy({ id: recruiterId });
+  if (!recruiter) throw new Error("Recruiter no encontrado");
 
-  if (!foundCategory) {
-    console.log("❌ Categoría no encontrada:", category);
-    throw new Error("Categoría no encontrada");
-  }
-
-  const newCompany = companyRepository.create({
-    name,
-    image,
-    description,
-    category: foundCategory
-  });
-
-  console.log("💾 Guardando nueva compañía...");
-  await companyRepository.save(newCompany);
-  console.log("✅ Compañía creada con éxito:", newCompany);
-
-  return newCompany;
+  const newCompany = companyRepo.create({ name, image, description, category: foundCategory, recruiter });
+  return await companyRepo.save(newCompany);
 };
+
 
 //Funcion para obtener todas las compañías.
 export const getAllCompaniesService = async () => {

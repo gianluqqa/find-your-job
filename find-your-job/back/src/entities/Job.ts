@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { Company } from "./Company";
 import { Postulation } from "./Postulation";
+import { CategoryDto } from "../dto/category.dto";
+import { User } from "./User";
 
 @Entity()
 export class Job {
@@ -16,8 +18,11 @@ export class Job {
   @Column()
   location!: string;
 
-  @Column({ nullable: true })
-  category?: string;
+  @Column({
+    type: "enum",
+    enum: CategoryDto,
+  })
+  category!: CategoryDto;
 
   @Column({ nullable: true })
   salary?: string;
@@ -43,8 +48,11 @@ export class Job {
   @Column({ nullable: true })
   benefits?: string;
 
-  @ManyToOne(() => Company, company => company.jobs)
+   @ManyToOne(() => Company, company => company.jobs)
   company!: Company;
+
+  @ManyToOne(() => User, user => user.jobs)
+  recruiter!: User;
 
   @OneToMany(() => Postulation, postulation => postulation.job)
   postulations!: Postulation[];
