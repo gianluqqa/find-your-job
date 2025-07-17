@@ -16,10 +16,10 @@ export class Study {
   field?: string;
 
   @Column()
-  startDate!: string; // Podés usar Date si querés, pero la interfaz dice string
+  startDate!: Date; // Podés usar Date si querés, pero la interfaz dice string
 
   @Column({ nullable: true })
-  endDate?: string;
+  endDate?: Date;
 
   @Column({ nullable: true })
   description?: string;

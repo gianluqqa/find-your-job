@@ -6,4 +6,5 @@ export interface StudyDto {
   startDate: string;
   endDate?: string;
   description?: string;
+  userId: string;
 }

@@ -5,50 +5,33 @@ import { Company } from "../entities/Company";
 import { Job } from "../entities/Job";
 import { User } from "../entities/User";
 
-export const createJobService = async (
-  jobData: JobDto & { recruiterId: string; companyId: string }
-) => {
+//Funcion para crear un job.
+export const createJobService = async ( jobData: JobDto & { recruiterId: string; companyId: string }) => {
   const jobRepository = AppDataSource.getRepository(Job);
   const companyRepository = AppDataSource.getRepository(Company);
   const userRepository = AppDataSource.getRepository(User);
 
   const {
-    title,
-    description,
-    location,
-    category,
-    salary,
-    status,
-    modality,
-    type,
-    vacancies,
-    requirements,
-    benefits,
-    recruiterId,
-    companyId,
+    title, description, location, category, salary,
+    status, modality, type, vacancies, requirements, benefits,
+    recruiterId, companyId
   } = jobData;
 
-  const company = await companyRepository.findOneBy({ id: companyId });
-  if (!company) throw new Error("Company not found");
-
+  // Buscar recruiter
   const recruiter = await userRepository.findOneBy({ id: recruiterId });
   if (!recruiter) throw new Error("Recruiter not found");
 
+  // Buscar company
+  const company = await companyRepository.findOneBy({ id: companyId });
+  if (!company) throw new Error("Company not found");
+
+  // Crear y guardar el job
   const newJob = jobRepository.create({
-    title,
-    description,
-    location,
-    category,
-    salary,
+    title, description, location, category, salary,
     createdAt: new Date().toISOString(),
-    status,
-    modality,
-    type,
-    vacancies,
-    requirements,
-    benefits,
-    company,
-    recruiter,
+    status, modality, type, vacancies, requirements, benefits,
+    recruiter,        // ✅ importante: asignamos recruiter
+    company
   });
 
   await jobRepository.save(newJob);
@@ -56,6 +39,7 @@ export const createJobService = async (
   return newJob;
 };
 
+//Funcion para actualizar datos de un job.
 export const updateJobService = async (jobId: string, data: any) => {
   const { recruiterId, category, companyId, ...fieldsToUpdate } = data;
 
@@ -65,12 +49,11 @@ export const updateJobService = async (jobId: string, data: any) => {
 
   const job = await jobRepository.findOne({
     where: { id: jobId },
-    relations: ["company", "company.recruiter"],
+    relations: ["recruiter", "company", "company.recruiter"],
   });
-
   if (!job) throw new Error("Job no encontrado");
 
-  if (job.company.recruiter.id !== recruiterId)
+  if (job.recruiter.id !== recruiterId)
     throw new Error("No autorizado");
 
   if (category) {
@@ -96,4 +79,33 @@ export const updateJobService = async (jobId: string, data: any) => {
   await jobRepository.save(job);
 
   return job;
+};
+
+//Funcion para eliminar un job.
+export const deleteJobService = async (jobId: string, recruiterId: string) => {
+  const jobRepository = AppDataSource.getRepository(Job);
+
+  const job = await jobRepository.findOne({
+    where: { id: jobId },
+    relations: ["recruiter"]
+  });
+
+  if (!job) throw new Error("Job no encontrado");
+
+  if (job.recruiter.id !== recruiterId)
+    throw new Error("No autorizado para eliminar este job");
+
+  await jobRepository.remove(job);
+
+  return { message: "Job eliminado correctamente" };
+};
+
+//Funcion para obtener todos los jobs de una compañía
+export const getJobsByCompanyService = async (companyId: string) => {
+  const jobRepository = AppDataSource.getRepository(Job);
+
+  return await jobRepository.find({
+    where: { company: { id: companyId } },
+    relations: ["recruiter", "company"],
+  });
 };
