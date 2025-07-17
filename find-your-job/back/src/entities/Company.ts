@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 import { User } from "./User";
 import { Job } from "./Job";
+import { Category } from "./Category";
 
 @Entity()
 export class Company {
@@ -14,9 +15,6 @@ export class Company {
   image?: string;
 
   @Column({ nullable: true })
-  category?: string;
-
-  @Column({ nullable: true })
   description?: string;
 
   @OneToMany(() => Job, job => job.company)
@@ -24,4 +22,7 @@ export class Company {
 
   @ManyToOne(() => User, user => user.companies)
   recruiter!: User;
+
+  @ManyToOne(() => Category, category => category.companies)
+  category!: Category;
 }

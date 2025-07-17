@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { ILogin } from "../interfaces/ILogin";
+import { LoginDto } from "../dto/login.dto";
 
 export const validateLogin = (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body as ILogin;
+  const { email, password } = req.body as LoginDto;
 
   if (!email || typeof email !== "string") {
     console.log("Validación: Email inválido o no enviado");

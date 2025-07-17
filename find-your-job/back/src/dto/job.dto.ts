@@ -1,4 +1,4 @@
-export interface IJob {
+export interface JobDto {
   id: string;
   title: string;
   description: string;

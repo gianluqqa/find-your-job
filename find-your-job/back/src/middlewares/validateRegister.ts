@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IRegister } from "../interfaces/IRegister";
+import { RegisterDto } from "../dto/register.dto";
 
 export function validateRegister(req: Request, res: Response, next: NextFunction) {
   const {
@@ -12,7 +12,7 @@ export function validateRegister(req: Request, res: Response, next: NextFunction
     country,
     state,
     city
-  } = req.body as IRegister;
+  } = req.body as RegisterDto;
 
   if (!name || !email || !password || !confirmPassword || !country || !state || !city) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });

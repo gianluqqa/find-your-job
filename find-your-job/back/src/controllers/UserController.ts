@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUserService, getAllUsersService, loginService } from "../services/userService";
+import { createUserService, getAllUsersService, getUserByIdService, loginService } from "../services/userService";
 
 // Encargado de ejecutar la funcion para crear un usuario.
 export const registerUserController = async (req: Request, res: Response) => {
@@ -22,6 +22,25 @@ export const getAllUsersController = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching users" });
   }
 };
+
+// Encargado de ejecutar la funcion para obtener un usuario por ID.
+export const getUserByIdController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserByIdService(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    console.log("✅ Usuario obtenido con éxito:", user);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("❌ Error al obtener usuario por ID:", error);
+    return res.status(500).json({ message: "Error al obtener usuario", error: (error as Error).message });
+  }
+};
+
 
 // Encargado de ejecutar la funcion para iniciar sesión.
 export const loginController = async (req: Request, res: Response) => {

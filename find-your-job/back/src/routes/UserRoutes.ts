@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { registerUserController, getAllUsersController, loginController } from "../controllers/userController";
+import { registerUserController, getAllUsersController, loginController, getUserByIdController } from "../controllers/userController";
 import { validateRegister } from "../middlewares/validateRegister";
 import { validateLogin } from "../middlewares/validateLogin";
 
-const router = Router();
+const userRoutes = Router();
 
-router.get("/", getAllUsersController);
-router.post("/register", validateRegister, registerUserController);
-router.post("/login", validateLogin, loginController);
+userRoutes.get("/", getAllUsersController);
+userRoutes.get("/:id", getUserByIdController);
+userRoutes.post("/register", validateRegister, registerUserController);
+userRoutes.post("/login", validateLogin, loginController);
 
-export default router;
+export default userRoutes;

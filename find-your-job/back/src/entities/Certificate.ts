@@ -13,7 +13,10 @@ export class Certificate {
   institution!: string;
 
   @Column()
-  graduationDate!: string; // Podés poner Date si querés, pero la interfaz dice string
+  graduationDate!: Date; // Podés poner Date si querés, pero la interfaz dice string
+
+   @Column({ nullable: true })
+  url?: string;
 
   @ManyToOne(() => User, user => user.certificates)
   user!: User;

@@ -1,4 +1,4 @@
-export interface IStudy {
+export interface StudyDto {
   id: string;
   institution: string;
   degree: string;

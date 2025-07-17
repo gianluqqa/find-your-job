@@ -12,6 +12,7 @@ import { Resume } from "../entities/Resume";
 import { Language } from "../entities/Language";
 import { Company } from "../entities/Company";
 import { Job } from "../entities/Job";
+import { Category } from "../entities/Category";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -34,5 +35,6 @@ export const AppDataSource = new DataSource({
     Language,
     Company,
     Job,
+    Category,
   ],
 });

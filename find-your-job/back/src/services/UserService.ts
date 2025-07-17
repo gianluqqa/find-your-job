@@ -33,6 +33,13 @@ export const getAllUsersService = async () => {
   return await userRepository.find();
 };
 
+//Funcion para obtener usuario por ID.
+export const getUserByIdService = async (id: string) => {
+  const userRepository = AppDataSource.getRepository(User);
+  return await userRepository.findOne({ where: { id } });
+}
+
+//Funcion para iniciar sesión.
 export const loginService = async (email: string, password: string) => {
   const userRepository = AppDataSource.getRepository(User);
 
