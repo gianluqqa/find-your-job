@@ -5,9 +5,9 @@ import { validateUpdateJob } from "../middlewares/validateUpdateJob";
 
 const jobRoutes = Router();
 
-jobRoutes.post("/", validateCreateJob, createJobController);
-jobRoutes.put("/:id", validateUpdateJob, updateJobController);
-jobRoutes.delete("/:id", deleteJobController);
+jobRoutes.post("/create", validateCreateJob, createJobController);
+jobRoutes.put("/edit/:id", validateUpdateJob, updateJobController);
+jobRoutes.delete("/delete/:id", deleteJobController);
 jobRoutes.get("/company/:id", getJobsByCompanyController);
 
 export default jobRoutes;

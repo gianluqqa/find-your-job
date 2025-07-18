@@ -6,6 +6,6 @@ const companyRoutes = Router();
 
 companyRoutes.post("/create", validateCreateCompany, createCompanyController);
 companyRoutes.get("/", getAllCompaniesController);
-companyRoutes.get("/:id", getCompanyByIdController);
+companyRoutes.get("/get/:id", getCompanyByIdController);
 
 export default companyRoutes;

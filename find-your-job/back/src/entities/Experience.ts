@@ -13,10 +13,10 @@ export class Experience {
   company!: string;
 
   @Column()
-  startDate!: string;
+  startDate!: Date;
 
   @Column({ nullable: true })
-  endDate?: string;
+  endDate?: Date;
 
   @Column({ nullable: true })
   description?: string;
