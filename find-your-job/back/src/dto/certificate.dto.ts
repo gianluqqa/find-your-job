@@ -3,6 +3,6 @@ export interface CertificateDto {
   title: string;
   institution: string;
   graduationDate: string;
-  userId: string;
   url?: string;
+  userId: string;
 }

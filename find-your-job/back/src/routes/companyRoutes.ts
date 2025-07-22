@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {createCompanyController, getAllCompaniesController, getCompanyByIdController} from "../controllers/companyController";
-import { validateCreateCompany } from "../middlewares/validateCreateCompany";
+import { validateCreateCompany } from "../middlewares/validateCompany";
 
 const companyRoutes = Router();
 

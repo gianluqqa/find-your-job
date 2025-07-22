@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createCertificateController, deleteCertificateController, getAllCertificatesByUserController, updateCertificateController } from "../controllers/certificateController";
-import { validateCreateCertificate } from "../middlewares/validateCreateCertificate";
+import { validateCreateCertificate } from "../middlewares/validateCertificate";
 
 const certificateRoutes = Router();
 

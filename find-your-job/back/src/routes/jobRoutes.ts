@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { createJobController, deleteJobController, getJobsByCompanyController, updateJobController } from "../controllers/jobController";
-import { validateCreateJob } from "../middlewares/validateCreateJob";
-import { validateUpdateJob } from "../middlewares/validateUpdateJob";
+import { validateCreateJob, validateUpdateJob } from "../middlewares/validateJob";
 
 const jobRoutes = Router();
 

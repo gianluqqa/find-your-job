@@ -52,3 +52,31 @@ export const deleteExperienceService = async (experienceId: string, candidateId:
 
   return { message: "Experience eliminada correctamente" };
 }
+
+export const updateExperienceService = async (experienceId: string, candidateId: string, updateData: Partial<ExperienceDto>) => {
+  const experienceRepository = AppDataSource.getRepository(Experience);
+  
+  const experience = await experienceRepository.findOne({
+    where: { id: experienceId },
+    relations: ["user"]
+  });
+
+  if (!experience) throw new Error("Experiencia no encontrada");
+
+  // Validamos que solo el candidato dueño pueda actualizarla
+  if (experience.user.id !== candidateId) {
+    throw new Error("No tienes permisos para actualizar esta experiencia");
+  }
+
+   // Actualizamos los campos
+  experience.title = updateData.title ?? experience.title;
+  experience.company = updateData.company ?? experience.company;
+  experience.startDate = updateData.startDate ? new Date(updateData.startDate) : experience.startDate;
+  experience.endDate = updateData.endDate ? new Date(updateData.endDate) : experience.endDate;
+  experience.description = updateData.description ?? experience.description;
+  experience.location = updateData.location ?? experience.location;
+
+  await experienceRepository.save(experience);
+
+  return experience;
+}

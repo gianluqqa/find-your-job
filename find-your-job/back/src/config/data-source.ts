@@ -22,7 +22,7 @@ export const AppDataSource = new DataSource({
   password: "glc2001luca2001",
   database: "find_your_job",
   synchronize: true,
-  logging: true,
+  logging: ["error"],
   entities: [
     User,
     Skill,

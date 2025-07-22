@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createExperienceService, deleteExperienceService, getExperiencesByCandidateIdService } from "../services/experienceService";
+import { createExperienceService, deleteExperienceService, getExperiencesByCandidateIdService, updateExperienceService } from "../services/experienceService";
 
 export const createExperienceController = async (req: Request, res: Response) => {
   try {
@@ -39,3 +39,17 @@ export const deleteExperienceController = async (req: Request, res: Response) =>
     });
   }
 };
+
+export const updateExperienceController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params; // Obtenemos el ID de la Experience o experienceId que queremos actualizar.
+    const candidateId = req.body.candidateId; // Obtenermos el ID del candidato que es el usuario que realiza la actualización.
+    const updateData = req.body; // Obtenemos los datos que queremos actualizar.
+    const updatedExperience = await updateExperienceService(id, candidateId, updateData); // Llamamos a la función para actualizar la experiencia.
+
+    return res.status(200).json(updatedExperience); //Si todo sale bien, devolvemos la experiencia actualizada.
+  } catch (error) {
+    console.error("❌ Error al actualizar experiencia:", error);
+    return res.status(400).json({ message: "Error al actualizar experiencia", error: (error as Error).message });
+  }
+}

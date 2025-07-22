@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createStudyController, deleteStudyController, getStudiesByUserController, updateStudyController } from "../controllers/studyController";
-import { validateCreateStudy } from "../middlewares/validateCreateStudy";
+import { validateCreateStudy } from "../middlewares/validateStudy";
 
 const studyRoutes = Router();
 

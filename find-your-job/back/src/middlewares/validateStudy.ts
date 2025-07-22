@@ -4,7 +4,7 @@ export const validateCreateStudy = (req: Request, res: Response, next: NextFunct
   const { userId, institution, degree, startDate } = req.body;
 
   if (!userId || !institution || !degree || !startDate) {
-    return res.status(400).json({ message: "Faltan campos obligatorios: userId, institution, degree, startDate" });
+    return res.status(400).json({ message: "Faltan campos obligatorios: institution, degree, startDate" });
   }
 
   next();

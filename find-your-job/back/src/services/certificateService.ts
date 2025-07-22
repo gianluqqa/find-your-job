@@ -15,7 +15,7 @@ export const createCertificateService = async (certificateData: CertificateDto) 
     institution: certificateData.institution,
     graduationDate: new Date(certificateData.graduationDate),
     url: certificateData.url,
-    user: user
+    user: user,
   });
 
   await certificateRepository.save(newCertificate);
@@ -25,12 +25,11 @@ export const createCertificateService = async (certificateData: CertificateDto) 
 export const getAllCertificatesByUserService = async (userId: string) => {
   const certificateRepository = AppDataSource.getRepository(Certificate);
   return await certificateRepository.find({
-    where: { user: { id: userId } }
+    where: { user: { id: userId } },
   });
 };
 
-export const updateCertificateService = async (certificateId: string,updateData: Partial<CertificateDto>
-) => {
+export const updateCertificateService = async (certificateId: string, updateData: Partial<CertificateDto>) => {
   const certificateRepository = AppDataSource.getRepository(Certificate);
 
   const certificate = await certificateRepository.findOneBy({ id: certificateId });
