@@ -16,5 +16,4 @@ export interface JobDto {
   requirements?: string;
   benefits?: string;
   companyId?: string;
-  recruiterId?: string;
 }

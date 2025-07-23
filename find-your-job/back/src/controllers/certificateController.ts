@@ -30,8 +30,8 @@ export const getAllCertificatesByUserController = async (req: Request, res: Resp
 
 export const updateCertificateController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params; // id del certificado
-    const { title, institution, graduationDate, url } = req.body;
+    const { id } = req.params; // ID del certificado que queremos actualizar.
+    const { title, institution, graduationDate, url } = req.body; // Datos que queremos actualizar.
 
     const updatedCertificate = await updateCertificateService(id, {
       title,
@@ -52,7 +52,7 @@ export const deleteCertificateController = async (req: Request, res: Response) =
     const { id } = req.params;
 
     const result = await deleteCertificateService(id);
-
+    console.log("✅ Certificado eliminado con éxito:", result);
     res.status(200).json(result);
   } catch (error) {
     console.error("❌ Error al eliminar certificado:", error);
