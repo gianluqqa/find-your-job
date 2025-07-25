@@ -1,5 +1,6 @@
 export interface SkillDto {
-    id?: string;
-    name: string;
-    userId?: string;
+  id?: string;             
+  technologyName?: string; // nombre legible de technology
+  customName?: string;     // skill manual
+  userId: string;
 }

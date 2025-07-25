@@ -3,13 +3,20 @@ import { createSkillService, deleteSkillService, getSkillsByUserService } from "
 
 export const createSkillController = async (req: Request, res: Response) => {
   try {
-    const skillData = req.body;
-    const newSkill = await createSkillService(skillData);
-    console.log("✅ Skill creado:", newSkill);
-    return res.status(201).json(newSkill);
+    const newSkill = await createSkillService(req.body);
+
+    const filteredSkill = {
+      id: newSkill.id,
+      customName: newSkill.customName,
+      technology: newSkill.technology ? { id: newSkill.technology.id, name: newSkill.technology.name } : null,
+      user: { id: newSkill.user.id, email: newSkill.user.email }, 
+    };
+
+    console.log("✅ Skill creada:", filteredSkill);
+    return res.status(201).json(filteredSkill);
   } catch (error) {
     console.error("❌ Error al crear skill:", error);
-    return res.status(500).json({ message: "Error al crear skill", error: (error as Error).message });
+    return res.status(400).json({ message: "Error al crear skill", error: (error as Error).message });
   }
 };
 
@@ -25,7 +32,6 @@ export const getSkillsByUserController = async (req: Request, res: Response) => 
   }
 };
 
-
 //Encargado de llamar la funcion para que unicamente el propietario pueda eliminar sus skills.
 export const deleteSkillController = async (req: Request, res: Response) => {
   try {
@@ -40,4 +46,3 @@ export const deleteSkillController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error al eliminar skill", error: (error as Error).message });
   }
 };
-
