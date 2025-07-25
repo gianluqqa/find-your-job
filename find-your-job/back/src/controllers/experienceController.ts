@@ -5,7 +5,18 @@ export const createExperienceController = async (req: Request, res: Response) =>
   try {
     const experienceData = req.body;
     const newExperience = await createExperienceService(experienceData);
-    return res.status(201).json(newExperience);
+
+    const filteredExperience = {
+      ...newExperience,
+      user: newExperience?.user && {
+        id: newExperience.user.id,
+        name: newExperience.user.name,
+        email: newExperience.user.email,
+        role: newExperience.user.role,
+      }
+    };
+
+    return res.status(201).json(filteredExperience);
   } catch (error) {
     console.error("❌ Error al crear experiencia:", error);
     return res.status(400).json({ message: "Error al crear experiencia", error: (error as Error).message });
@@ -26,11 +37,11 @@ export const getExperiencesByCandidateIdController = async (req: Request, res: R
 export const deleteExperienceController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { candidateId } = req.body;
+    const { userId } = req.body;
 
-    const result = await deleteExperienceService(id, candidateId);
+    const deletedExperience = await deleteExperienceService(id, userId);
 
-    return res.status(200).json(result);
+    return res.status(200).json(deletedExperience);
   } catch (error) {
     console.error("❌ Error al eliminar experiencia:", error);
     return res.status(400).json({
@@ -42,14 +53,39 @@ export const deleteExperienceController = async (req: Request, res: Response) =>
 
 export const updateExperienceController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params; // Obtenemos el ID de la Experience o experienceId que queremos actualizar.
-    const candidateId = req.body.candidateId; // Obtenermos el ID del candidato que es el usuario que realiza la actualización.
-    const updateData = req.body; // Obtenemos los datos que queremos actualizar.
-    const updatedExperience = await updateExperienceService(id, candidateId, updateData); // Llamamos a la función para actualizar la experiencia.
+    const { id } = req.params; // ID de la experiencia
+    const userId = req.body.userId; // ID del usuario (candidate)
+    const updateData = req.body;   // Datos a actualizar
 
-    return res.status(200).json(updatedExperience); //Si todo sale bien, devolvemos la experiencia actualizada.
+    const updatedExperience = await updateExperienceService(id, userId, updateData);
+
+    if (!updatedExperience) {
+      return res.status(404).json({ message: "Experiencia no encontrada" });
+    }
+
+    const filtered = {
+      id: updatedExperience.id,
+      title: updatedExperience.title,
+      company: updatedExperience.company,
+      startDate: updatedExperience.startDate,
+      endDate: updatedExperience.endDate,
+      description: updatedExperience.description,
+      location: updatedExperience.location,
+      user: updatedExperience.user && {
+        id: updatedExperience.user.id,
+        name: updatedExperience.user.name,
+        email: updatedExperience.user.email,
+        role: updatedExperience.user.role,
+      },
+    };
+
+    return res.status(200).json(filtered);
   } catch (error) {
     console.error("❌ Error al actualizar experiencia:", error);
-    return res.status(400).json({ message: "Error al actualizar experiencia", error: (error as Error).message });
+    return res.status(400).json({
+      message: "Error al actualizar experiencia",
+      error: (error as Error).message,
+    });
   }
-}
+};
+
