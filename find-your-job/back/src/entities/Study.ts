@@ -7,10 +7,13 @@ export class Study {
   id!: string;
 
   @Column()
+  title!: string;
+
+  @Column()
   institution!: string;
 
   @Column()
-  degree!: string;
+  degree!: "Bachelor" | "Master" | "Doctor";
 
   @Column({ nullable: true })
   field?: string;
@@ -24,6 +27,6 @@ export class Study {
   @Column({ nullable: true })
   description?: string;
 
-  @ManyToOne(() => User, user => user.studies)
+  @ManyToOne(() => User, (user) => user.studies)
   user!: User;
 }

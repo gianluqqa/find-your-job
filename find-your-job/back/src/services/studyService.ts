@@ -12,6 +12,7 @@ export const createStudyService = async (studyData: StudyDto, userId: string) =>
   if (!user) throw new Error("Usuario no encontrado");
 
   const newStudy = studyRepository.create({
+    title: studyData.title,
     institution: studyData.institution,
     degree: studyData.degree,
     field: studyData.field,

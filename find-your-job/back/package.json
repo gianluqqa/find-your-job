@@ -7,8 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "seed:categories": "ts-node src/scripts/seedCategories.ts",
-    "seed:companies": "ts-node src/scripts/seedCompanies.ts"
+    "seed:categories": "ts-node src/scripts/seedCategories.ts"
   },
   "dependencies": {
     "express": "^5.1.0",
