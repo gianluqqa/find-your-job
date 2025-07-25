@@ -43,14 +43,21 @@ export const updateLanguageService = async (languageId: string, updateData: Part
   return language;
 };
 
-export const deleteLanguageService = async (languageId: string) => {
+export const deleteLanguageService = async (languageId: string, userId: string) => {
   const languageRepository = AppDataSource.getRepository(Language);
 
-  const language = await languageRepository.findOneBy({ id: languageId });
+  const language = await languageRepository.findOne({
+    where: { id: languageId },
+    relations: ["user"],
+  });
 
   if (!language) {
     throw new Error("Language no encontrada");
   }
+
+  if (language.user.id !== userId) {
+    throw new Error("No autorizado para eliminar esta language");
+  }
   await languageRepository.remove(language);
   return { message: "Language eliminada correctamente" };
-}
+};

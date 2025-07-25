@@ -10,3 +10,22 @@ export const validateCreateCertificate = (req: Request, res: Response, next: Nex
   next();
 };
 
+export const validateUpdateCertificate = (req: Request, res: Response, next: NextFunction) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: "El userId del dueño es obligatorio para actualizar el certificado" });
+  }
+
+  next();
+};
+
+export const validateDeleteCertificate = (req: Request, res: Response, next: NextFunction) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: "El userId del dueño es obligatorio para eliminar el certificado" });
+  }
+
+  next();
+};

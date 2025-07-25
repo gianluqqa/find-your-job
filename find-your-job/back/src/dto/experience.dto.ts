@@ -6,5 +6,5 @@ export interface ExperienceDto {
   endDate?: string;
   description?: string;
   location?: string;
-  candidateId: string;
+  userId: string;
 }

@@ -27,10 +27,11 @@ export const getAptitudesByUserController = async (req: Request, res: Response) 
 export const deleteAptitudeController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params; // Obtenemos el ID del aptitude que queremos eliminar.
+    const { userId } = req.body; // Obtenemos el ID del usuario que quiere eliminar la aptitude.
 
-    const result = await deleteAptitudeService(id); // Llamamos a la función para eliminar el aptitude.
-    console.log("✅ Aptitude eliminada con éxito:", result);
-    res.status(200).json(result);
+    const deletedAptitude = await deleteAptitudeService(id, userId); // Llamamos a la función para eliminar el aptitude.
+    console.log("✅ Aptitude eliminada con éxito:", deletedAptitude);
+    res.status(200).json(deletedAptitude);
   } catch (error) {
     console.error("❌ Error al eliminar aptitude:", error);
     res.status(400).json({ message: "Error al eliminar aptitude", error: (error as Error).message });

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, CreateDateColumn } from "typeorm";
 import { User } from "./User";
 import { Job } from "./Job";
 import { Category } from "./Category";
@@ -16,6 +16,9 @@ export class Company {
 
   @Column({ nullable: true })
   description?: string;
+
+  @CreateDateColumn({ type: "timestamp" })
+    createdAt!: Date;
 
   @OneToMany(() => Job, job => job.company)
   jobs?: Job[];

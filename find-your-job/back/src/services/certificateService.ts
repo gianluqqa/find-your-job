@@ -19,23 +19,38 @@ export const createCertificateService = async (certificateData: CertificateDto) 
   });
 
   await certificateRepository.save(newCertificate);
-  return newCertificate;
+
+  const certificateWithUser = await certificateRepository.findOne({
+    where: { id: newCertificate.id },
+    relations: ["user"],
+  });
+
+  return certificateWithUser;
 };
 
 export const getAllCertificatesByUserService = async (userId: string) => {
   const certificateRepository = AppDataSource.getRepository(Certificate);
   return await certificateRepository.find({
     where: { user: { id: userId } },
+    relations: ["user"],
   });
 };
 
-export const updateCertificateService = async (certificateId: string, updateData: Partial<CertificateDto>) => {
+export const updateCertificateService = async (certificateId: string, updateData: Partial<CertificateDto> & { userId: string }) => {
   const certificateRepository = AppDataSource.getRepository(Certificate);
 
-  const certificate = await certificateRepository.findOneBy({ id: certificateId });
+  // Traer también el usuario relacionado
+  const certificate = await certificateRepository.findOne({
+    where: { id: certificateId },
+    relations: ["user"],
+  });
 
   if (!certificate) {
     throw new Error("Certificado no encontrado");
+  }
+
+  if (certificate.user.id !== updateData.userId) {
+    throw new Error("No tienes permisos para actualizar este certificado");
   }
 
   // Actualiza solo los campos que vienen
@@ -43,16 +58,29 @@ export const updateCertificateService = async (certificateId: string, updateData
 
   await certificateRepository.save(certificate);
 
-  return certificate;
+  // Traer actualizado con relación para filtrar luego
+  const updatedCertificate = await certificateRepository.findOne({
+    where: { id: certificateId },
+    relations: ["user"],
+  });
+
+  return updatedCertificate;
 };
 
-export const deleteCertificateService = async (certificateId: string) => {
+export const deleteCertificateService = async (certificateId: string, userId: string) => {
   const certificateRepository = AppDataSource.getRepository(Certificate);
 
-  const certificate = await certificateRepository.findOneBy({ id: certificateId });
+  const certificate = await certificateRepository.findOne({
+    where: { id: certificateId },
+    relations: ["user"],
+  });
 
   if (!certificate) {
     throw new Error("Certificado no encontrado");
+  }
+
+  if (certificate.user.id !== userId) {
+    throw new Error("No autorizado para eliminar este certificado");
   }
 
   await certificateRepository.remove(certificate);

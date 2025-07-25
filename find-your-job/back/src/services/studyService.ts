@@ -32,26 +32,14 @@ export const getStudiesByUserService = async (userId: string) => {
 
   const studies = await studyRepository.find({
     where: { user: { id: userId } },
-    relations: ["user"],  
+    relations: ["user"],
   });
 
   return studies;
 };
 
 //Funcion para eliminar un study.
-export const deleteStudyService = async (studyId: string) => {
-  const studyRepository = AppDataSource.getRepository(Study);
-
-  const study = await studyRepository.findOneBy({ id: studyId });
-  if (!study) throw new Error("Study no encontrado");
-
-  await studyRepository.remove(study);
-
-  return { message: "Study eliminado correctamente" };
-};
-
-//Funcion para actualizar un study.
-export const updateStudyService = async ( studyId: string,userId: string,studyData: Partial<StudyDto>) => {
+export const deleteStudyService = async (studyId: string, userId: string) => {
   const studyRepository = AppDataSource.getRepository(Study);
 
   const study = await studyRepository.findOne({
@@ -61,8 +49,26 @@ export const updateStudyService = async ( studyId: string,userId: string,studyDa
 
   if (!study) throw new Error("Study no encontrado");
 
-  if (study.user.id !== userId)
-    throw new Error("No autorizado para actualizar este study");
+  if (study.user.id !== userId) {
+    throw new Error("No autorizado para eliminar este study");
+  }
+
+  await studyRepository.remove(study);
+  return { message: "Study eliminado correctamente" };
+};
+
+//Funcion para actualizar un study.
+export const updateStudyService = async (studyId: string, userId: string, studyData: Partial<StudyDto>) => {
+  const studyRepository = AppDataSource.getRepository(Study);
+
+  const study = await studyRepository.findOne({
+    where: { id: studyId },
+    relations: ["user"],
+  });
+
+  if (!study) throw new Error("Study no encontrado");
+
+  if (study.user.id !== userId) throw new Error("No autorizado para actualizar este study");
 
   // Actualizamos solo las propiedades que vengan en studyData
   Object.assign(study, studyData);

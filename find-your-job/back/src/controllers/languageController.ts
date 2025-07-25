@@ -42,8 +42,9 @@ export const updateLanguageController = async (req: Request, res: Response) => {
 export const deleteLanguageController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
 
-    const deletedLanguage = await deleteLanguageService(id);
+    const deletedLanguage = await deleteLanguageService(id, userId);
 
     console.log("✅ Lenguaje eliminado con éxito:", deletedLanguage);
     return res.status(200).json(deletedLanguage);

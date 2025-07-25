@@ -5,7 +5,7 @@ import { CompanyDto } from "../dto/company.dto";
 import { User } from "../entities/User";
 
 //Funcion para crear una compañia.
-export const createCompanyService = async ({ name, image, description, category, recruiterId }: CompanyDto) => {
+export const createCompanyService = async ({ name, image, description, category, userId }: CompanyDto) => {
   const companyRepo = AppDataSource.getRepository(Company);
   const categoryRepo = AppDataSource.getRepository(Category);
   const userRepo = AppDataSource.getRepository(User);
@@ -13,19 +13,34 @@ export const createCompanyService = async ({ name, image, description, category,
   const foundCategory = await categoryRepo.findOneBy({ name: category as any });
   if (!foundCategory) throw new Error("Categoría no encontrada");
 
-  const recruiter = await userRepo.findOneBy({ id: recruiterId });
-  if (!recruiter) throw new Error("Recruiter no encontrado");
+  const recruiter = await userRepo.findOneBy({ id: userId });
+  if (!recruiter) throw new Error("Usuario no encontrado");
+  if (recruiter.role !== "recruiter") throw new Error("Solo recruiter puede crear compañías");
 
-  const newCompany = companyRepo.create({ name, image, description, category: foundCategory, recruiter });
+  const newCompany = companyRepo.create({
+    name,
+    image,
+    description,
+    category: foundCategory,
+    recruiter,
+  });
+
   return await companyRepo.save(newCompany);
 };
 
-
-//Funcion para obtener todas las compañías.
 export const getAllCompaniesService = async () => {
   const companyRepository = AppDataSource.getRepository(Company);
- return await companyRepository.find();
-}
+
+  const companies = await companyRepository.find({
+    relations: ["recruiter", "category", "jobs"],
+  });
+
+  if (!companies || companies.length === 0) {
+    throw new Error("No se encontraron compañías");
+  }
+
+  return companies;
+};
 
 //Funcion para obtener una compañia especifica por ID.
 export const getCompanyByIdService = async (id: string) => {
@@ -33,7 +48,7 @@ export const getCompanyByIdService = async (id: string) => {
 
   const company = await companyRepository.findOne({
     where: { id },
-    relations: ["category", "jobs"], // Relaciones cargadas.
+    relations: ["recruiter", "category", "jobs"],
   });
 
   if (!company) {

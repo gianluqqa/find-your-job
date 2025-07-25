@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  OneToOne,
-  JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn, CreateDateColumn } from "typeorm";
 
 import { Skill } from "./Skill";
 import { Study } from "./Study";
@@ -55,6 +48,9 @@ export class User {
 
   @Column({ default: "active" })
   status!: "active" | "suspended";
+
+  @CreateDateColumn({ type: "timestamp" })
+  createdAt!: Date;
 
   // Relaciones comunes
   @OneToMany(() => Skill, (skill) => skill.user)

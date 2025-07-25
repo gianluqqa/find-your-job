@@ -3,10 +3,10 @@ import { CategoryDto } from "../dto/category.dto";
 
 export const validateCreateJob = (req: Request, res: Response, next: NextFunction) => {
   const {
-    title, description, location, category, status, modality, type, companyId, recruiterId
+    title, description, location, category, status, modality, type, companyId, userId
   } = req.body;
 
-  if (!title || !description || !location || !category || !status || !modality || !type || !companyId || !recruiterId) {
+  if (!title || !description || !location || !category || !status || !modality || !type || !companyId || !userId) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
 
@@ -33,13 +33,9 @@ export const validateCreateJob = (req: Request, res: Response, next: NextFunctio
 };
 
 export const validateUpdateJob = (req: Request, res: Response, next: NextFunction) => {
-  const { recruiterId, title, description, location, category, status, modality, type, companyId } = req.body;
+  const { userId, title, description, location, category, status, modality, type, companyId } = req.body;
 
-  if (!recruiterId) return res.status(400).json({ message: "El recruiterId es obligatorio" });
-
-  if (category && !Object.values(CategoryDto).includes(category)) {
-    return res.status(400).json({ message: "La categoría no es válida" });
-  }
+  if (!userId) return res.status(400).json({ message: "El userId es obligatorio" });
 
   const validStatus = ["Active", "Expired", "Urgent"];
   if (status && !validStatus.includes(status)) {

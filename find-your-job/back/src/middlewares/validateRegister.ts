@@ -30,7 +30,7 @@ export function validateRegister(req: Request, res: Response, next: NextFunction
     return res.status(400).json({ message: "El rol es obligatorio" });
   }
 
-  if (!["candidate", "recruiter"].includes(role)) {
+  if (!["candidate", "recruiter", "admin"].includes(role)) {
     return res.status(400).json({ message: "Rol inválido" });
   }
 

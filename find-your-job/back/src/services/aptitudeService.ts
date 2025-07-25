@@ -27,14 +27,24 @@ export const getAptitudesByUserService = async (userId: string) => {
   const aptitudeRepository = AppDataSource.getRepository(Aptitude);
   return await aptitudeRepository.find({
     where: { user: { id: userId } },
+    relations: ["user"],
   });
 };
 
-export const deleteAptitudeService = async (aptitudeId: string) => {
+export const deleteAptitudeService = async (aptitudeId: string, userId: string) => {
   const aptitudeRepository = AppDataSource.getRepository(Aptitude);
-  const aptitude = await aptitudeRepository.findOneBy({ id: aptitudeId });
+  const aptitude = await aptitudeRepository.findOne({
+    where: { id: aptitudeId },
+    relations: ["user"],
+  });
 
-  if (!aptitude) throw new Error("Aptitude no encontrada");
+  if (!aptitude) {
+    throw new Error("Aptitude no encontrada");
+  }
+
+  if (aptitude.user.id !== userId) {
+    throw new Error("No autorizado para eliminar esta aptitude");
+  }
   await aptitudeRepository.remove(aptitude);
   return { message: "Aptitude eliminada correctamente" };
 };

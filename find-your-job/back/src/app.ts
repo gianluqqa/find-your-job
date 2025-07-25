@@ -8,6 +8,7 @@ import experienceRoutes from "./routes/experienceRoutes";
 import morgan from "morgan";
 import languageRoutes from "./routes/lenguageRoutes";
 import aptitudeRoutes from "./routes/aptitudeRoutes";
+import skillRoutes from "./routes/skillRoutes";
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use("/studies", studyRoutes);
 app.use("/experiences", experienceRoutes);
 app.use("/languages", languageRoutes);
 app.use("/aptitudes", aptitudeRoutes);
+app.use("/skills", skillRoutes);
 
 export default app;

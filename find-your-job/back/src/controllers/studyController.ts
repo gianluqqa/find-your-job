@@ -37,12 +37,13 @@ export const getStudiesByUserController = async (req: Request, res: Response) =>
 export const deleteStudyController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
 
-    const result = await deleteStudyService(id);
+    const deletedStudy = await deleteStudyService(id, userId);
 
-    res.status(200).json(result);
+    res.status(200).json(deletedStudy);
 
-    console.log("✅ Study eliminado con éxito:", result);
+    console.log("✅ Study eliminado con éxito:", deletedStudy);
   } catch (error) {
     console.error("❌ Error al eliminar study:", error);
     res.status(400).json({ message: "Error al eliminar study", error: (error as Error).message });

@@ -6,58 +6,65 @@ import { Job } from "../entities/Job";
 import { User } from "../entities/User";
 
 //Funcion para crear un job.
-export const createJobService = async ( jobData: JobDto & { recruiterId: string; companyId: string }) => {
-  const jobRepository = AppDataSource.getRepository(Job);
-  const companyRepository = AppDataSource.getRepository(Company);
-  const userRepository = AppDataSource.getRepository(User);
+export const createJobService = async (jobData: JobDto & { userId: string; companyId: string }) => {
+  const userRepo = AppDataSource.getRepository(User);
+  const companyRepo = AppDataSource.getRepository(Company);
+  const jobRepo = AppDataSource.getRepository(Job);
 
-  const {
-    title, description, location, category, salary,
-    status, modality, type, vacancies, requirements, benefits,
-    recruiterId, companyId
-  } = jobData;
+  // 1️⃣ Buscar user
+  const user = await userRepo.findOneBy({ id: jobData.userId });
+  if (!user) throw new Error("Usuario no encontrado");
+  if (user.role !== "recruiter") throw new Error("Solo recruiters pueden crear jobs");
 
-  // Buscar recruiter
-  const recruiter = await userRepository.findOneBy({ id: recruiterId });
-  if (!recruiter) throw new Error("Recruiter not found");
+  // 2️⃣ Buscar company
+  const company = await companyRepo.findOneBy({ id: jobData.companyId });
+  if (!company) throw new Error("Company no encontrada");
 
-  // Buscar company
-  const company = await companyRepository.findOneBy({ id: companyId });
-  if (!company) throw new Error("Company not found");
-
-  // Crear y guardar el job
-  const newJob = jobRepository.create({
-    title, description, location, category, salary,
+  // 3️⃣ Crear y guardar job
+  const newJob = jobRepo.create({
+    title: jobData.title,
+    description: jobData.description,
+    location: jobData.location,
+    category: jobData.category, // solo el name, o puedes buscarla si quieres
+    salary: jobData.salary,
+    status: jobData.status,
+    modality: jobData.modality,
+    type: jobData.type,
+    vacancies: jobData.vacancies,
+    requirements: jobData.requirements,
+    benefits: jobData.benefits,
     createdAt: new Date().toISOString(),
-    status, modality, type, vacancies, requirements, benefits,
-    recruiter,        // ✅ importante: asignamos recruiter
-    company
+    recruiter: user, // asigna el recruiter
+    company, // asigna la company
   });
 
-  await jobRepository.save(newJob);
-
+  await jobRepo.save(newJob);
   return newJob;
 };
 
 //Funcion para actualizar datos de un job.
 export const updateJobService = async (jobId: string, data: any) => {
-  const { recruiterId, category, companyId, ...fieldsToUpdate } = data;
+  const { userId, category, companyId, ...fieldsToUpdate } = data;
 
-  const jobRepository = AppDataSource.getRepository(Job);
-  const companyRepository = AppDataSource.getRepository(Company);
-  const categoryRepository = AppDataSource.getRepository(Category);
+  const userRepo = AppDataSource.getRepository(User);
+  const companyRepo = AppDataSource.getRepository(Company);
+  const categoryRepo = AppDataSource.getRepository(Category);
+  const jobRepo = AppDataSource.getRepository(Job);
 
-  const job = await jobRepository.findOne({
+  const user = await userRepo.findOneBy({ id: userId });
+  if (!user) throw new Error("Usuario no encontrado");
+  if (user.role !== "recruiter") throw new Error("Solo recruiters pueden actualizar jobs");
+
+  const job = await jobRepo.findOne({
     where: { id: jobId },
     relations: ["recruiter", "company", "company.recruiter"],
   });
   if (!job) throw new Error("Job no encontrado");
 
-  if (job.recruiter.id !== recruiterId)
-    throw new Error("No autorizado");
+  if (job.recruiter.id !== userId) throw new Error("No autorizado para actualizar este job");
 
   if (category) {
-    const foundCategory = await categoryRepository.findOneBy({
+    const foundCategory = await categoryRepo.findOneBy({
       name: category as any,
     });
     if (!foundCategory) throw new Error("Categoría no encontrada");
@@ -65,35 +72,37 @@ export const updateJobService = async (jobId: string, data: any) => {
   }
 
   if (companyId) {
-    const foundCompany = await companyRepository.findOne({
+    const foundCompany = await companyRepo.findOne({
       where: { id: companyId },
       relations: { recruiter: true },
     });
     if (!foundCompany) throw new Error("Compañía no encontrada");
-    if (foundCompany.recruiter.id !== recruiterId)
-      throw new Error("No autorizado para cambiar a esta compañía");
+    if (foundCompany.recruiter.id !== userId) throw new Error("No autorizado para cambiar a esta compañía");
     job.company = foundCompany;
   }
 
   Object.assign(job, fieldsToUpdate);
-  await jobRepository.save(job);
+  await jobRepo.save(job);
 
   return job;
 };
 
 //Funcion para eliminar un job.
-export const deleteJobService = async (jobId: string, recruiterId: string) => {
+export const deleteJobService = async (jobId: string, userId: string) => {
   const jobRepository = AppDataSource.getRepository(Job);
+  const userRepository = AppDataSource.getRepository(User);
+
+  const user = await userRepository.findOneBy({ id: userId });
+  if (!user) throw new Error("Usuario no encontrado");
+  if (user.role !== "recruiter") throw new Error("Solo recruiters pueden eliminar jobs");
 
   const job = await jobRepository.findOne({
     where: { id: jobId },
-    relations: ["recruiter"]
+    relations: ["recruiter"],
   });
-
   if (!job) throw new Error("Job no encontrado");
 
-  if (job.recruiter.id !== recruiterId)
-    throw new Error("No autorizado para eliminar este job");
+  if (job.recruiter.id !== userId) throw new Error("No autorizado para eliminar este job");
 
   await jobRepository.remove(job);
 
@@ -108,4 +117,14 @@ export const getJobsByCompanyService = async (companyId: string) => {
     where: { company: { id: companyId } },
     relations: ["recruiter", "company"],
   });
+};
+
+export const getAllJobsService = async () => {
+  const jobRepository = AppDataSource.getRepository(Job);
+
+  const jobs = await jobRepository.find({
+    relations: ["recruiter", "company"],
+  });
+
+  return jobs;
 };
