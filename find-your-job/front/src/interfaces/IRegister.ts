@@ -3,13 +3,10 @@ export interface IRegister {
   email: string;
   password: string;
   confirmPassword: string;
-  role?: "candidate" | "recruiter";
-  company?: string;
-  category?: string;
+  role?: "candidate" | "recruiter" | "admin";
   country: string;
   state: string;     
   city: string;
   phone?: string;
-  about?: string;
   termsAccepted: boolean;
 }
