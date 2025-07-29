@@ -4,6 +4,7 @@ import { Skill } from "../entities/Skill";
 import { Technology } from "../entities/Technology";
 import { User } from "../entities/User";
 
+//Funcion para crear un skill.
 export const createSkillService = async (skillData: SkillDto) => {
   const skillRepository = AppDataSource.getRepository(Skill);
   const userRepository = AppDataSource.getRepository(User);
@@ -33,6 +34,7 @@ export const createSkillService = async (skillData: SkillDto) => {
   return newSkill;
 };
 
+//Funcion para obtener todos los skills de un user.
 export const getSkillsByUserService = async (userId: string) => {
   const skillRepository = AppDataSource.getRepository(Skill);
 
@@ -42,6 +44,7 @@ export const getSkillsByUserService = async (userId: string) => {
   });
 };
 
+//Funcion para eliminar una skill.
 export const deleteSkillService = async (skillId: string, userId: string) => {
   const skillRepository = AppDataSource.getRepository(Skill);
 
