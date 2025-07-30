@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IRegister } from "src/interfaces/IRegister";
 import { validateRegister } from "src/helpers/validateRegister";
-import { registerRecruiter } from "src/api/registerApi";
+import { registerApiRecruiter } from "src/api/registerApi";
 
 const RegisterRecruiterView = () => {
   const [formData, setFormData] = useState<IRegister>({
@@ -37,7 +37,7 @@ const RegisterRecruiterView = () => {
     }
 
     try {
-      const response = await registerRecruiter(formData);
+      const response = await registerApiRecruiter(formData);
       setSuccessMessage("Usuario registrado correctamente ✅");
       setFormError(null);
       setTimeout(() => {

@@ -1,7 +1,7 @@
 import api from "./axios";
 import { IRegister } from "../interfaces/IRegister";
 
-export const registerCandidate = async (data: IRegister) => {
+export const registerApiCandidate = async (data: IRegister) => {
   try {
     // Hacemos el POST a /register
     // Mandamos todos los campos obligatorios + phone
@@ -26,7 +26,7 @@ export const registerCandidate = async (data: IRegister) => {
   }
 };
 
-export const registerRecruiter = async (data: IRegister) => {
+export const registerApiRecruiter = async (data: IRegister) => {
   try {
     // Hacemos el POST a /register
     // Mandamos todos los campos obligatorios + phone

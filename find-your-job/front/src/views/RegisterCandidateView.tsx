@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { IRegister } from "src/interfaces/IRegister";
 import { useRouter } from "next/navigation";
 import { validateRegister } from "src/helpers/validateRegister";
-import { registerCandidate } from "src/api/registerApi";
+import { registerApiCandidate } from "src/api/registerApi";
 
 const RegisterCandidateView: React.FC = () => {
   const [formData, setFormData] = useState<IRegister>({
@@ -38,7 +38,7 @@ const RegisterCandidateView: React.FC = () => {
     }
 
     try {
-      const response = await registerCandidate(formData);
+      const response = await registerApiCandidate(formData);
       setSuccessMessage("Usuario registrado correctamente ✅");
       setFormError(null);
       // Ejemplo: redireccionar tras 2s

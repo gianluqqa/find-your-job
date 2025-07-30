@@ -1,29 +1,63 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ILogin } from "src/interfaces/ILogin";
 import styles from "./LoginView.module.css";
+import { loginApi } from "src/api/loginApi";
+import { validateLogin } from "src/helpers/validateLogin";
 
 const LoginView: React.FC = () => {
-
-  const router = useRouter();
-
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  
   const [formData, setFormData] = useState<ILogin>({
     email: "",
     password: "",
     rememberMe: false,
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const router = useRouter();
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
+    setIsLoading(true);
+
+    const error = validateLogin(formData);
+    if (error) {
+      setFormError(error);
+      setSuccessMessage(null);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await loginApi(formData);
+      setSuccessMessage("Login correcto ✅");
+      setFormError(null);
+
+      const user = response.user; // <- ✏️ accedemos al user
+
+      setTimeout(() => {
+        if (user.role === "candidate") {
+          router.push("/dashboard/candidate");
+        } else if (user.role === "recruiter") {
+          router.push("/dashboard/recruiter");
+        } else {
+          router.push("/"); 
+        }
+      }, 2000);
+    } catch (error: any) {
+      setFormError(error.message || "Error al loguear");
+      setSuccessMessage(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,6 +85,44 @@ const LoginView: React.FC = () => {
               </h1>
             </div>
 
+            {formError && (
+              <div className="mb-4 p-3 bg-red-900/30 border border-red-600/50 rounded-lg backdrop-blur-sm">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg className="h-4 w-4 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-2">
+                    <p className="text-red-300 text-xs font-medium">{formError}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {successMessage && (
+              <div className="mb-4 p-3 bg-emerald-900/30 border border-emerald-600/50 rounded-lg backdrop-blur-sm">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-2">
+                    <p className="text-emerald-300 text-xs font-medium">{successMessage}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               <div>
                 <label htmlFor="email" className="block text-blue-200 text-sm font-medium mb-2">
@@ -64,6 +136,7 @@ const LoginView: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="Enter your email"
                   className="w-full p-3 rounded-md bg-gradient-to-r from-blue-950/60 via-slate-900/60 to-emerald-950/60 border border-blue-700/40 hover:border-blue-600/60 focus:border-emerald-400/70 text-slate-100 placeholder-slate-400 transition-all duration-300 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-emerald-400/30 backdrop-blur-sm"
+                  disabled={isLoading}
                 />
               </div>
 
@@ -80,11 +153,13 @@ const LoginView: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     placeholder="Enter your password"
                     className="w-full p-3 pr-10 rounded-md bg-gradient-to-r from-blue-950/60 via-slate-900/60 to-emerald-950/60 border border-blue-700/40 hover:border-blue-600/60 focus:border-emerald-400/70 text-slate-100 placeholder-slate-400 transition-all duration-300 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-emerald-400/30 backdrop-blur-sm"
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-emerald-300 transition-colors duration-200 p-1"
+                    disabled={isLoading}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       {showPassword ? (
@@ -115,11 +190,12 @@ const LoginView: React.FC = () => {
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                    className="sr-only"
+                    className="sr-only peer"
+                    disabled={isLoading}
                   />
                   <label htmlFor="rememberMe" className="relative flex items-center cursor-pointer">
-                    <div className="w-4 h-4 border-2 border-blue-500/60 rounded-sm bg-gradient-to-r from-blue-950/60 to-emerald-950/60 flex items-center justify-center transition-all duration-300 hover:border-emerald-400/80">
-                      <svg className="w-3 h-3 text-emerald-300 opacity-0 peer-checked:opacity-100 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="w-4 h-4 border-2 border-blue-500/60 rounded-sm bg-gradient-to-r from-blue-950/60 to-emerald-950/60 flex items-center justify-center transition-all duration-300 hover:border-emerald-400/80 peer-checked:border-emerald-400 peer-checked:bg-emerald-400/20">
+                      <svg className={`w-3 h-3 text-emerald-300 transition-opacity duration-200 ${formData.rememberMe ? "opacity-100" : "opacity-0"}`} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                     </div>
@@ -130,9 +206,20 @@ const LoginView: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-blue-800 via-slate-800 to-emerald-800 hover:from-blue-700 hover:via-slate-700 hover:to-emerald-700 text-slate-100 font-medium py-3 px-4 rounded-md transition-all duration-300 border border-blue-700/30 hover:border-emerald-500/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/30 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-emerald-500/20 text-sm sm:text-base"
+                disabled={isLoading}
+                className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-blue-800 via-slate-800 to-emerald-800 hover:from-blue-700 hover:via-slate-700 hover:to-emerald-700 text-slate-100 font-medium py-3 px-4 rounded-md transition-all duration-300 border border-blue-700/30 hover:border-emerald-500/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/30 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-emerald-500/20 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-none"
               >
-                Sign In
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-slate-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Signing In...
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
 
