@@ -1,21 +1,25 @@
 import { Request, Response } from "express";
 import { createUserService, getAllUsersService, getUserByIdService, loginService } from "../services/userService";
+import { signJwt } from "../utils/signToken";
 
-// Encargado de ejecutar la funcion para crear un usuario.
+//Encargado de ejecutar la funcion para crear un usuario.
 export const registerUserController = async (req: Request, res: Response) => {
   try {
     const newUser = await createUserService(req.body);
 
-    // Limitar la información que devuelve el usuario.
     const userResponse = {
       id: newUser.id,
       name: newUser.name,
+      email: newUser.email,
       role: newUser.role,
       status: newUser.status,
       createdAt: newUser.createdAt ?? null,
     };
 
-    res.status(201).json(userResponse);
+    res.status(201).json({
+      message: "Usuario registrado correctamente",
+      user: userResponse,
+    });
   } catch (error: any) {
     console.error("Error al registrar usuario:", error);
     res.status(400).json({ message: error.message || "Error interno del servidor" });
@@ -81,7 +85,10 @@ export const loginController = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Email o contraseña incorrectos" });
     }
 
-    // Limitar la información devuelta solo a lo estrictamente necesario
+    // Generar el token con info mínima
+    const token = signJwt({ id: user.id, role: user.role });
+
+    // Preparar la respuesta segura
     const userResponse = {
       id: user.id,
       name: user.name,
@@ -91,7 +98,11 @@ export const loginController = async (req: Request, res: Response) => {
       createdAt: user.createdAt,
     };
 
-    return res.json({ message: "Inicio de sesión exitoso", user: userResponse });
+    return res.json({
+      message: "Inicio de sesión exitoso",
+      user: userResponse,
+      token, // ⬅️ incluir el token
+    });
   } catch (error) {
     console.error("loginController: Error en el servidor durante el inicio de sesión:", error);
     return res.status(500).json({ message: "Error en el servidor durante el inicio de sesión" });

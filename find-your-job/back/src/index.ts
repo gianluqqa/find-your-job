@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
+console.log("JWT_SECRET:", process.env.JWT_SECRET)
+
 import app from "./app";
 import { AppDataSource } from "./config/data-source";
 
@@ -11,4 +15,3 @@ AppDataSource.initialize()
     });
   })
   .catch((error) => console.error("❌ Error connecting to database", error));
-

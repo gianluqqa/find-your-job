@@ -24,11 +24,11 @@ export const AppDataSource = new DataSource({
   host: process.env.DB_HOST || "localhost", // host, por defecto localhost
   port: parseInt(process.env.DB_PORT || "5432"), // Convierte el string a number con parseInt de lo contrario, puerto por defecto 5432
   username: process.env.DB_USERNAME || "postgres", // usuario, por defecto postgres
-  password: process.env.DB_PASSWORD || "tu_password", // contraseña
+  password: process.env.DB_PASSWORD || "glc2001luca2001", // contraseña
   database: process.env.DB_NAME || "find_your_job", // nombre de la base de datos
 
   synchronize: true, // crea las tablas automáticamente (solo recomendable en desarrollo)
-  logging: true, // muestra en consola las queries y errores
+  logging: false, // muestra en consola las queries y errores
 
   // Acá ponemos todas nuestras entidades para que TypeORM las reconozca
   entities: [User, Skill, Study, Certificate, Aptitude, Postulation, Experience, Resume, Language, Company, Job, Category, Technology],
