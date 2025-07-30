@@ -1,33 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { IUser } from "src/interfaces/IUser";
+import React from "react";
+import LoadingSpinner from "src/components/dashboardCandidate/LoadingSpinner";
+import { useAuth } from "src/context/useAuth";
 
 const DashboardRecruiterView: React.FC = () => {
-  const [recruiter, setRecruiter] = useState<IUser | null>(null);
+  const { user } = useAuth(); // sacamos el user del contexto
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("registeredUser");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      const recruiterData: IUser = {
-        id: userData.id || userData.email || "no-id",
-        name: userData.name || "No Name",
-        email: userData.email || "no-email",
-        role: "recruiter",
-        country: userData.country || "",
-        state: userData.state || "",
-        city: userData.city || "",
-        phone: userData.phone || "",
-        about: userData.about || "No description available",
-        image: userData.image || "https://via.placeholder.com/150",
-        company: Array.isArray(userData.company) ? userData.company : [],
-        jobs: Array.isArray(userData.jobs) ? userData.jobs : [],
-      };
-      setRecruiter(recruiterData);
-    }
-  }, []);
-
-  if (!recruiter) return <div>Loading recruiter profile...</div>;
+  // Si todavía no cargó el user, mostramos el loader
+  if (!user) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-8 bg-[#3a4a25] rounded-3xl shadow-lg text-[#d9e4c8] space-y-8">
@@ -42,15 +24,15 @@ const DashboardRecruiterView: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-4 text-[#b8c67a]">Profile Information</h2>
         <div className="flex items-start space-x-6">
           <img 
-            src={recruiter.image} 
-            alt={recruiter.name} 
+            src={user.image || "https://via.placeholder.com/150"} 
+            alt={user.name} 
             className="w-32 h-32 rounded-full border-4 border-[#5a703a] object-cover" 
           />
           <div className="flex-1">
-            <h3 className="text-2xl font-semibold text-[#d9e4c8]">{recruiter.name}</h3>
-            <p className="text-[#a5b38a] mt-1">Role: {recruiter.role}</p>
+            <h3 className="text-2xl font-semibold text-[#d9e4c8]">{user.name}</h3>
+            <p className="text-[#a5b38a] mt-1">Role: {user.role}</p>
             <div className="mt-3">
-              <p className="text-[#93a878] italic">{recruiter.about}</p>
+              <p className="text-[#93a878] italic">{user.about || "No description available"}</p>
             </div>
           </div>
         </div>
@@ -62,15 +44,15 @@ const DashboardRecruiterView: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-[#3a4a25] p-4 rounded-lg">
             <p className="text-[#a5b38a] text-sm">Country</p>
-            <p className="text-[#d9e4c8] font-semibold">{recruiter.country || "Not specified"}</p>
+            <p className="text-[#d9e4c8] font-semibold">{user.country || "Not specified"}</p>
           </div>
           <div className="bg-[#3a4a25] p-4 rounded-lg">
             <p className="text-[#a5b38a] text-sm">State</p>
-            <p className="text-[#d9e4c8] font-semibold">{recruiter.state || "Not specified"}</p>
+            <p className="text-[#d9e4c8] font-semibold">{user.state || "Not specified"}</p>
           </div>
           <div className="bg-[#3a4a25] p-4 rounded-lg">
             <p className="text-[#a5b38a] text-sm">City</p>
-            <p className="text-[#d9e4c8] font-semibold">{recruiter.city || "Not specified"}</p>
+            <p className="text-[#d9e4c8] font-semibold">{user.city || "Not specified"}</p>
           </div>
         </div>
       </div>
@@ -82,9 +64,9 @@ const DashboardRecruiterView: React.FC = () => {
           {/* Compañías */}
           <div className="bg-[#2a3a1a] rounded-2xl p-6 border border-[#5a703a]">
             <h2 className="text-2xl font-semibold mb-4 text-[#b8c67a]">Companies</h2>
-            {Array.isArray(recruiter.company) && recruiter.company.length > 0 ? (
+            {Array.isArray(user.companies) && user.companies.length > 0 ? (
               <div className="space-y-3">
-                {recruiter.company.map((comp, index) => (
+                {user.companies.map((comp, index) => (
                   <div key={index} className="bg-[#3a4a25] p-4 rounded-lg">
                     <p className="text-[#d9e4c8] font-semibold">{comp.name || `Company ${index + 1}`}</p>
                   </div>
@@ -101,9 +83,9 @@ const DashboardRecruiterView: React.FC = () => {
           {/* Jobs Posted */}
           <div className="bg-[#2a3a1a] rounded-2xl p-6 border border-[#5a703a]">
             <h2 className="text-2xl font-semibold mb-4 text-[#b8c67a]">Job Postings</h2>
-            {Array.isArray(recruiter.jobs) && recruiter.jobs.length > 0 ? (
+            {Array.isArray(user.jobs) && user.jobs.length > 0 ? (
               <div className="space-y-3">
-                {recruiter.jobs.map((job, index) => (
+                {user.jobs.map((job, index) => (
                   <div key={index} className="bg-[#3a4a25] p-4 rounded-lg">
                     <p className="text-[#d9e4c8] font-semibold">{job.title || `Job ${index + 1}`}</p>
                     {job.description && (

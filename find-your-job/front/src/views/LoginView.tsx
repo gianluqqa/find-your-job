@@ -5,8 +5,10 @@ import { ILogin } from "src/interfaces/ILogin";
 import styles from "./LoginView.module.css";
 import { loginApi } from "src/api/loginApi";
 import { validateLogin } from "src/helpers/validateLogin";
+import { useAuth } from "src/context/useAuth";
 
 const LoginView: React.FC = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState<ILogin>({
     email: "",
     password: "",
@@ -31,30 +33,27 @@ const LoginView: React.FC = () => {
     const error = validateLogin(formData);
     if (error) {
       setFormError(error);
-      setSuccessMessage(null);
       setIsLoading(false);
       return;
     }
 
     try {
       const response = await loginApi(formData);
-      setSuccessMessage("Login correcto ✅");
-      setFormError(null);
+      login(response.user, response.token); // guardamos en contexto
 
-      const user = response.user; // <- ✏️ accedemos al user
+      setSuccessMessage("Login correcto ✅");
 
       setTimeout(() => {
-        if (user.role === "candidate") {
+        if (response.user.role === "candidate") {
           router.push("/dashboard/candidate");
-        } else if (user.role === "recruiter") {
+        } else if (response.user.role === "recruiter") {
           router.push("/dashboard/recruiter");
         } else {
-          router.push("/"); 
+          router.push("/");
         }
       }, 2000);
     } catch (error: any) {
       setFormError(error.message || "Error al loguear");
-      setSuccessMessage(null);
     } finally {
       setIsLoading(false);
     }

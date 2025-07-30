@@ -2,6 +2,7 @@ import { IAptitude } from "./IAptitude";
 import { ICertificate } from "./ICertificate";
 import { ICompany } from "./ICompany";
 import { IExperience } from "./IExperience";
+import { IJob } from "./IJob";
 import { ILanguage } from "./ILanguage";
 import { IPostulation } from "./IPostulation";
 import { IResume } from "./IResume";
@@ -12,30 +13,32 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
-  role?: "candidate" | "recruiter" | "admin";
-
-  // Datos comunes
+  role: "candidate" | "recruiter" | "admin"; // lo hacemos obligatorio
   country: string;
   state: string;
   city: string;
   phone?: string;
   about?: string;
   image?: string;
+  status: "active" | "suspended"; // lo hacemos obligatorio
+  createdAt: string; // o Date, según cómo lo devuelva el back
+
+  // Relaciones comunes
   skills?: ISkills[];
   studies?: IStudy[];
   certificates?: ICertificate[];
-  status?: "active" | "suspended";
-  
-  // Solo para candidatos
+
+  // Solo candidate
   aptitudes?: IAptitude[];
   postulations?: IPostulation[];
   experience?: IExperience[];
   resume?: IResume;
   languages?: ILanguage[];
 
-  // Solo para reclutadores
-  company?: ICompany[];
+  // Solo recruiter
+  companies?: ICompany[]; // plural para que coincida con back
+  jobs?: IJob[]; // falta en tu versión original
 
-  // Token (si usás auth real en el futuro)
-  token?: string;
+  // 🔒 El token NO debería estar aquí de forma fija
+  // Si querés, podés manejarlo en AuthContext, no como propiedad del usuario
 }
