@@ -1,11 +1,19 @@
+"use client";
+import React, { useState } from "react";
 import { IStudy } from "src/interfaces/IStudy";
-import { GraduationCap, Calendar, BookOpen } from 'lucide-react';
-import React from 'react'
+import { useAuth } from "src/context/useAuth";
+import { GraduationCap, Calendar } from "lucide-react";
+import AddStudyForm from "../forms/AddStudyForm";
 
-const StudiesSection: React.FC<{studies: IStudy[]}> = ({ studies }) => {
+const StudiesSection: React.FC<{ studies: IStudy[] }> = ({ studies }) => {
+  const { user } = useAuth();
+  const [showForm, setShowForm] = useState(false);
+
+  const toggleForm = () => setShowForm(!showForm);
+
   return (
     <div className="bg-gradient-to-br from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-lg border border-slate-600/30 shadow-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-green-800/60 to-green-700/60 p-4 sm:p-6 border-b border-slate-600/30">
+      <div className="bg-gradient-to-r from-green-800/60 to-green-700/60 p-4 sm:p-6 border-b border-slate-600/30 flex justify-between items-center">
         <div className="flex items-center gap-3 md:gap-4">
           <div className="w-8 h-8 md:w-10 md:h-10 bg-green-700 rounded-lg flex items-center justify-center">
             <GraduationCap className="w-4 h-4 md:w-6 md:h-6 text-green-100" />
@@ -15,11 +23,18 @@ const StudiesSection: React.FC<{studies: IStudy[]}> = ({ studies }) => {
             <p className="text-green-200 text-xs md:text-sm lg:text-base">Academic formation</p>
           </div>
         </div>
+
+        {user && (
+          <button onClick={toggleForm} className="bg-green-600 hover:bg-green-700 text-white rounded px-3 py-1 text-sm">
+            {showForm ? "Close" : "Add Study"}
+          </button>
+        )}
       </div>
-      
+
+      {showForm && <AddStudyForm onClose={() => setShowForm(false)} />}
+
       <div className="p-4 md:p-6 max-h-80 md:max-h-96 overflow-y-auto">
         {studies && studies.length > 0 ? (
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
             {studies.map((study, index) => (
               <div
@@ -31,30 +46,18 @@ const StudiesSection: React.FC<{studies: IStudy[]}> = ({ studies }) => {
                     <GraduationCap className="w-3 h-3 md:w-4 md:h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-slate-200 text-sm md:text-base font-medium group-hover:text-green-200 transition-colors mb-1 truncate">
-                      {study.degree}
-                    </h4>
-                    <p className="text-green-300 text-xs md:text-sm font-medium mb-1 truncate">
-                      {study.institution}
-                    </p>
-                    {study.field && (
-                      <p className="text-slate-400 text-xs md:text-sm mb-2 truncate">
-                        {study.field}
-                      </p>
-                    )}
-                    
+                    <h4 className="text-slate-200 text-sm md:text-base font-medium group-hover:text-green-200 transition-colors mb-1 truncate">{study.degree}</h4>
+                    <p className="text-green-300 text-xs md:text-sm font-medium mb-1 truncate">{study.institution}</p>
+                    {study.field && <p className="text-slate-400 text-xs md:text-sm mb-2 truncate">{study.field}</p>}
+
                     <div className="flex items-center gap-2 text-slate-400 text-xs mb-2 flex-wrap">
                       <Calendar className="w-3 h-3 flex-shrink-0" />
                       <span className="text-xs">
-                        {study.startDate} - {study.endDate || 'Presente'}
+                        {study.startDate} - {study.endDate || "Presente"}
                       </span>
                     </div>
 
-                    {study.description && (
-                      <p className="text-slate-300 text-xs md:text-sm leading-relaxed line-clamp-3">
-                        {study.description}
-                      </p>
-                    )}
+                    {study.description && <p className="text-slate-300 text-xs md:text-sm leading-relaxed line-clamp-3">{study.description}</p>}
                   </div>
                 </div>
               </div>
@@ -70,6 +73,6 @@ const StudiesSection: React.FC<{studies: IStudy[]}> = ({ studies }) => {
       </div>
     </div>
   );
-}
+};
 
-export default StudiesSection
+export default StudiesSection;

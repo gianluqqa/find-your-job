@@ -1,27 +1,21 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Button1 from "../ui/Button1";
 import Button2 from "../ui/Button2";
-import { getCurrentRole } from "src/helpers/authFunctions";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import { useAuth } from "src/context/useAuth";
 
 const AuthButtons = () => {
-  const [role, setRole] = useState<"candidate" | "recruiter" | null>(null);
+  const { user, logout } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const currentRole = getCurrentRole();
-    setRole(currentRole);
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem("userRole");
-    router.push("/");
+    logout(); // Limpiamos user/token del contexto y localStorage
+    router.push("/"); 
   };
 
-  if (role === "candidate") {
+  if (user && user.role === "candidate") {
     return (
       <div className="flex items-center gap-4">
         <Link href={"/dashboard/candidate"}>
@@ -36,7 +30,7 @@ const AuthButtons = () => {
     );
   }
 
-  if (role === "recruiter") {
+  if (user && user.role === "recruiter") {
     return (
       <div className="flex items-center gap-4">
         <Link href={"/dashboard/recruiter"}>
@@ -51,7 +45,6 @@ const AuthButtons = () => {
     );
   }
 
-  // Usuario no logueado
   return (
     <div className="flex items-center gap-4">
       <Link href={"/login"}>

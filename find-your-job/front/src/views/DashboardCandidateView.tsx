@@ -3,7 +3,6 @@ import React from "react";
 import { Briefcase } from "lucide-react";
 import LoadingSpinner from "src/components/dashboardCandidate/LoadingSpinner";
 import ProfileHeroSection from "src/components/dashboardCandidate/ProfileHeroSection";
-import ApplicationsSection from "src/components/dashboardCandidate/ApplicationsSection";
 import ProfessionalExperience from "src/components/dashboardCandidate/ProfessionalExperience";
 import StudiesSection from "src/components/dashboardCandidate/StudiesSection";
 import CertificatesSection from "src/components/dashboardCandidate/CertificatesSection";

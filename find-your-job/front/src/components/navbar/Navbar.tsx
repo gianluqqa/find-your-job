@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { getUser } from "src/helpers/authFunctions";
-import { IUser } from "../../interfaces/INavbar";
 import BackButton from "./BackButton";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
@@ -15,7 +13,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
-  const [user, setUser] = useState<IUser | null>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -23,14 +20,8 @@ const Navbar = () => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const storedUser = getUser();
-    setUser(storedUser);
   }, []);
 
   const toggleMobileMenu = () => {

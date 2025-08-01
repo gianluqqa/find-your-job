@@ -1,16 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLinkItem } from "../../interfaces/INavbar";
-import { getCurrentRole } from "src/helpers/authFunctions";
+import { useAuth } from "src/context/useAuth";
 
 const NavLinks: React.FC = () => {
-  const [role, setRole] = useState<"candidate" | "recruiter" | null>(null);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const currentRole = getCurrentRole();
-    setRole(currentRole);
-  }, []);
-
+  // Links para cada tipo de usuario
   const publicLinks: NavLinkItem[] = [
     { href: "#jobspreview", label: "Jobs" },
     { href: "#companiespreview", label: "Companies" },
@@ -31,7 +27,22 @@ const NavLinks: React.FC = () => {
     { href: "/my-jobs", label: "My Jobs" },
   ];
 
-  const linksToRender = role === "candidate" ? candidateLinks : role === "recruiter" ? recruiterLinks : publicLinks;
+  const adminLinks: NavLinkItem[] = [
+    // TODO: agregar links reales cuando se definan
+    { href: "/admin-dashboard", label: "Admin Dashboard" },
+  ];
+
+  // Variable para guardar los links que vamos a renderizar
+  let linksToRender: NavLinkItem[] = publicLinks;
+
+  // Lógica para decidir qué links usar según el rol
+  if (user && user.role === "candidate") {
+    linksToRender = candidateLinks;
+  } else if (user && user.role === "recruiter") {
+    linksToRender = recruiterLinks;
+  } else if (user && user.role === "admin") {
+    linksToRender = adminLinks;
+  }
 
   return (
     <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 text-emerald-100 text-sm font-medium">
