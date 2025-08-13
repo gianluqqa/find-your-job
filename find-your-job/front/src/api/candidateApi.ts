@@ -2,9 +2,10 @@ import { IStudy } from "src/interfaces/IStudy";
 import api from "./axios";
 import { ISkill, ISkillCreate } from "src/interfaces/ISkills";
 import { ICertificate } from "src/interfaces/ICertificate";
+import { IExperience } from "src/interfaces/IExperience";
 
-// Studies
-export const createStudy = async (data: IStudy, userId: string) => {
+//? //////////////////////////////////////////////////////////////////////STUDIES/////////////////////////////////////////////////////////////////////////////////////////
+export const createStudy = async (data: IStudy) => {
   try {
     const response = await api.post("/studies/create", data);
     return response.data;
@@ -13,7 +14,38 @@ export const createStudy = async (data: IStudy, userId: string) => {
   }
 };
 
-// Skills
+export const getStudiesByUserId = async (userId: string) => {
+  try {
+    const response = await api.get(`/studies/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las estudias del usuario:", error);
+    throw new Error("No se pudieron obtener las estudias del usuario.");
+  }
+};
+
+export const deleteStudy = async (studyId: string, userId: string) => {
+  try {
+    const response = await api.delete(`/studies/delete/${studyId}`, {
+      data: { userId },
+    });
+  } catch (error) {
+    console.error("Error al eliminar la estudia:", error);
+    throw new Error("No se pudo eliminar la estudia.");
+  }
+};
+
+export const editStudy = async (studyId: string, data: IStudy) => {
+  try {
+    const response = await api.put(`/studies/edit/${studyId}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al editar la estudia:", error);
+    throw new Error("No se pudo editar la estudia.");
+  }
+};
+
+//? //////////////////////////////////////////////////////////////////////SKILLS/////////////////////////////////////////////////////////////////////////////////////////
 export const getSkillsByUserId = async (userId: string) => {
   try {
     const response = await api.get(`/skills/user/${userId}`);
@@ -46,7 +78,7 @@ export const deleteSkill = async (skillId: string, userId: string) => {
   }
 };
 
-// Technologies
+//* ///////////////////////////////////////////////////////////////////TECHNOLOGIES/////////////////////////////////////////////////////////////////////////////////////
 export const getTechnologies = async () => {
   try {
     const response = await api.get("/technologies");
@@ -57,7 +89,8 @@ export const getTechnologies = async () => {
   }
 };
 
-// Certificates
+//? //////////////////////////////////////////////////////////////////////CERTIFICATE/////////////////////////////////////////////////////////////////////////////////////////
+
 export const createCertificate = async (data: ICertificate) => {
   try {
     const response = await api.post("/certificates/create", data);
@@ -90,3 +123,55 @@ export const deleteCertificate = async (certificateId: string, userId: string) =
     throw new Error("No se pudo eliminar el certificado.");
   }
 };
+
+export const editCertificate = async (certificateId: string, data: ICertificate) => {
+  try {
+    const response = await api.put(`/certificates/edit/${certificateId}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al editar el certificado:", error);
+    throw new Error("No se pudo editar el certificado.");
+  }
+};
+
+//? //////////////////////////////////////////////////////////////////////EXPERIENCES/////////////////////////////////////////////////////////////////////////////////////////
+
+export const createExperience = async (data: IExperience) => {
+  try {
+    const response = await api.post("/experiences/create", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear la experiencia:", error);
+    throw new Error("No se pudo crear la experiencia.");
+  }
+};
+
+export const getExperiencesByUserId = async (userId: string) => {
+  try {
+    const response = await api.get(`/experiences/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las experiencias del usuario:", error);
+    throw new Error("No se pudieron obtener las experiencias del usuario.");
+  }
+};
+
+export const deleteExperience = async (experienceId: string, userId: string) => {
+  try {
+    const response = await api.delete(`/experiences/delete/${experienceId}`, {
+      data: { userId },
+    });
+  } catch (error) {
+    console.error("Error al eliminar la experiencia:", error);
+  }
+};
+
+export const editExperience = async (experienceId: string, data: IExperience) => {
+  try {
+    const response = await api.put(`/experiences/edit/${experienceId}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al editar la experiencia:", error);
+    throw new Error("No se pudo editar la experiencia.");
+  }
+}

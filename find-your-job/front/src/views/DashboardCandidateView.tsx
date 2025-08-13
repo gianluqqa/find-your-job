@@ -48,8 +48,8 @@ const DashboardCandidateView: React.FC = () => {
 
           {/* Right Column - Studies, Certificates, Skills */}
           <div className="space-y-6">
-            <StudiesSection studies={user.studies || []} />
-            <CertificatesSection certificates={user.certificates || []} />
+            <StudiesSection  />
+            <CertificatesSection />
             <SkillsSection /> {/* ✅ Sin props */}
           </div>
         </div>

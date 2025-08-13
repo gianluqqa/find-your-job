@@ -6,4 +6,5 @@ export interface IExperience {
   endDate?: string;  // null o undefined si es actual
   description?: string;
   location?: string;
+  userId?: string;
 }

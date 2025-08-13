@@ -7,4 +7,5 @@ export interface IStudy {
   startDate: string;
   endDate?: string;
   description?: string;
+  userId?: string;
 }

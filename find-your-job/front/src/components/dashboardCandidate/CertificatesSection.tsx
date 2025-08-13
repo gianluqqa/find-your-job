@@ -2,12 +2,13 @@ import { ICertificate } from "src/interfaces/ICertificate";
 import { Award, Calendar, Plus, X, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "src/context/useAuth";
-import { createCertificate, getCertificatesByUserId, deleteCertificate } from "src/api/candidateApi";
+import { createCertificate, getCertificatesByUserId, deleteCertificate, editCertificate } from "src/api/candidateApi";
 
 const CertificatesSection: React.FC = () => {
   const { user } = useAuth();
   const [certificates, setCertificates] = useState<ICertificate[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<ICertificate>({
     title: "",
     institution: "",
@@ -48,12 +49,29 @@ const CertificatesSection: React.FC = () => {
     }
   };
 
+  const handleEditClick = (certificate: ICertificate) => {
+    setFormData({
+      title: certificate.title,
+      institution: certificate.institution,
+      graduationDate: certificate.graduationDate.split("T")[0], // Para input date
+      url: certificate.url || "",
+      userId: user?.id || "",
+    });
+    setEditingId(certificate.id || null);
+    setShowForm(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.institution || !formData.graduationDate) return;
 
     try {
-      await createCertificate(formData);
+      if (editingId) {
+        await editCertificate(editingId, formData);
+      } else {
+        await createCertificate(formData);
+      }
+
       setFormData({
         title: "",
         institution: "",
@@ -61,10 +79,11 @@ const CertificatesSection: React.FC = () => {
         url: "",
         userId: user?.id || "",
       });
+      setEditingId(null);
       setShowForm(false);
       fetchCertificates();
     } catch (error) {
-      console.error("Error al crear certificado:", error);
+      console.error(editingId ? "Error al editar certificado:" : "Error al crear certificado:", error);
     }
   };
 
@@ -82,7 +101,22 @@ const CertificatesSection: React.FC = () => {
           </div>
         </div>
 
-        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded-lg text-white text-sm transition-colors">
+        <button
+          onClick={() => {
+            if (showForm && editingId) {
+              setEditingId(null);
+              setFormData({
+                title: "",
+                institution: "",
+                graduationDate: "",
+                url: "",
+                userId: user?.id || "",
+              });
+            }
+            setShowForm(!showForm);
+          }}
+          className="flex items-center gap-1 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded-lg text-white text-sm transition-colors"
+        >
           {showForm ? <X size={16} /> : <Plus size={16} />}
           {showForm ? "Cancel" : "Add"}
         </button>
@@ -124,7 +158,7 @@ const CertificatesSection: React.FC = () => {
           />
           <div className="md:col-span-2 flex justify-end">
             <button type="submit" className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors">
-              Save
+              {editingId ? "Update" : "Save"}
             </button>
           </div>
         </form>
@@ -135,13 +169,18 @@ const CertificatesSection: React.FC = () => {
         {certificates.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
             {certificates.map((certificate) => (
-              <div key={certificate.id} className="group p-3 md:p-4 bg-slate-700/40 hover:bg-slate-600/40 rounded-lg border border-slate-600/30 hover:border-purple-600/40 transition-all duration-300">
+              <div
+                key={certificate.id}
+                className="group p-3 md:p-4 bg-slate-700/40 hover:bg-slate-600/40 rounded-lg border border-slate-600/30 hover:border-purple-600/40 transition-all duration-300"
+              >
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200 mt-1">
                     <Award className="w-3 h-3 md:w-4 md:h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-slate-200 text-sm md:text-base font-medium group-hover:text-purple-200 transition-colors mb-1 truncate">{certificate.title}</h4>
+                    <h4 className="text-slate-200 text-sm md:text-base font-medium group-hover:text-purple-200 transition-colors mb-1 truncate">
+                      {certificate.title}
+                    </h4>
                     <p className="text-purple-300 text-xs md:text-sm font-medium mb-1 truncate">{certificate.institution}</p>
                     <div className="flex items-center gap-2 text-slate-400 text-xs mb-2 flex-wrap">
                       <Calendar className="w-3 h-3 flex-shrink-0" />
@@ -153,16 +192,25 @@ const CertificatesSection: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => {
-                      if (certificate.id) handleDeleteCertificate(certificate.id);
-                      else console.error("ID de certificado indefinido");
-                    }}
-                    className="text-red-400 hover:text-red-500 transition-colors"
-                    title="Eliminar certificado"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex flex-col gap-1">
+                    <button
+                      onClick={() => handleEditClick(certificate)}
+                      className="text-blue-400 hover:text-blue-500 transition-colors"
+                      title="Editar certificado"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (certificate.id) handleDeleteCertificate(certificate.id);
+                        else console.error("ID de certificado indefinido");
+                      }}
+                      className="text-red-400 hover:text-red-500 transition-colors"
+                      title="Eliminar certificado"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
