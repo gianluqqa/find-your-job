@@ -3,4 +3,7 @@ export interface ICertificate {
   title: string;
   institution: string;
   graduationDate: string;
+  url?: string;
+  userId: string;
 }
+

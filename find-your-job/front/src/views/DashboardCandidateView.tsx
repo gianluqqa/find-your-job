@@ -10,9 +10,8 @@ import SkillsSection from "src/components/dashboardCandidate/SkillsSection";
 import { useAuth } from "src/context/useAuth";
 
 const DashboardCandidateView: React.FC = () => {
-  const { user } = useAuth(); // sacamos el user del contexto
+  const { user } = useAuth();
 
-  // Si todavía no cargó el user, mostramos el loader
   if (!user) {
     return <LoadingSpinner />;
   }
@@ -40,11 +39,6 @@ const DashboardCandidateView: React.FC = () => {
         {/* Profile Hero Section */}
         <ProfileHeroSection candidateData={user} />
 
-        {/* Applications Section - Full Width */}
-        {/* <div className="mt-6">
-          <ApplicationsSection postulations={user.postulations || []} />
-        </div> */}
-
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-8 mt-6">
           {/* Left Column - Professional Experience */}
@@ -56,7 +50,7 @@ const DashboardCandidateView: React.FC = () => {
           <div className="space-y-6">
             <StudiesSection studies={user.studies || []} />
             <CertificatesSection certificates={user.certificates || []} />
-            <SkillsSection skills={user.skills || []} />
+            <SkillsSection /> {/* ✅ Sin props */}
           </div>
         </div>
       </div>
