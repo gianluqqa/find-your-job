@@ -29,6 +29,7 @@ export const AppDataSource = new DataSource({
 
   synchronize: true, // crea las tablas automáticamente (solo recomendable en desarrollo)
   logging: false, // muestra en consola las queries y errores
+  // dropSchema: true, // borra la base de datos y crea una nueva
 
   // Acá ponemos todas nuestras entidades para que TypeORM las reconozca
   entities: [User, Skill, Study, Certificate, Aptitude, Postulation, Experience, Resume, Language, Company, Job, Category, Technology],

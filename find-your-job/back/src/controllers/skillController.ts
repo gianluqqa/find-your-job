@@ -9,7 +9,7 @@ export const createSkillController = async (req: Request, res: Response) => {
       id: newSkill.id,
       customName: newSkill.customName,
       technology: newSkill.technology ? { id: newSkill.technology.id, name: newSkill.technology.name } : null,
-      user: { id: newSkill.user.id, email: newSkill.user.email }, 
+      user: { id: newSkill.user.id, email: newSkill.user.email },
     };
 
     console.log("✅ Skill creada:", filteredSkill);
@@ -24,11 +24,32 @@ export const getSkillsByUserController = async (req: Request, res: Response) => 
   try {
     const { id } = req.params;
     const skills = await getSkillsByUserService(id);
-    console.log("✅ Skills obtenidos:", skills);
-    return res.status(200).json(skills);
+
+    // Filtramos datos antes de enviar
+    const filteredSkills = skills.map((skill) => ({
+      id: skill.id,
+      customName: skill.customName,
+      technology: skill.technology
+        ? {
+            id: skill.technology.id,
+            name: skill.technology.name,
+          }
+        : null,
+      user: {
+        id: skill.user.id,
+        name: skill.user.name,
+        email: skill.user.email,
+        role: skill.user.role,
+      },
+    }));
+
+    return res.status(200).json(filteredSkills);
   } catch (error) {
     console.error("❌ Error al obtener skills:", error);
-    return res.status(500).json({ message: "Error al obtener skills", error: (error as Error).message });
+    return res.status(500).json({
+      message: "Error al obtener skills",
+      error: (error as Error).message,
+    });
   }
 };
 

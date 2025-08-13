@@ -16,8 +16,8 @@ export const createSkillService = async (skillData: SkillDto) => {
 
   let technology: Technology | undefined = undefined;
 
-  if (skillData.technologyName) {
-    const foundTechnology = await technologyRepository.findOneBy({ name: skillData.technologyName });
+  if (skillData.technologyId) {
+    const foundTechnology = await technologyRepository.findOneBy({ id: skillData.technologyId });
     if (!foundTechnology) throw new Error("Tecnología no encontrada");
     technology = foundTechnology;
   }
@@ -40,7 +40,7 @@ export const getSkillsByUserService = async (userId: string) => {
 
   return await skillRepository.find({
     where: { user: { id: userId } },
-    relations: ["user"],
+    relations: ["user", "technology"], // <--- agregamos technology
   });
 };
 
