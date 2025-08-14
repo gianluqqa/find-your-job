@@ -29,6 +29,7 @@ export const deleteStudy = async (studyId: string, userId: string) => {
     const response = await api.delete(`/studies/delete/${studyId}`, {
       data: { userId },
     });
+    return response.data;
   } catch (error) {
     console.error("Error al eliminar la estudia:", error);
     throw new Error("No se pudo eliminar la estudia.");
@@ -148,7 +149,7 @@ export const createExperience = async (data: IExperience) => {
 
 export const getExperiencesByUserId = async (userId: string) => {
   try {
-    const response = await api.get(`/experiences/user/${userId}`);
+    const response = await api.get(`/experiences/get/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener las experiencias del usuario:", error);
