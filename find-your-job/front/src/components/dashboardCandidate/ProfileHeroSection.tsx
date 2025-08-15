@@ -1,54 +1,169 @@
-import React from "react";
-import { User, FileText } from "lucide-react";
-import { IUser } from "src/interfaces/IUser";
-import ContactGrid from "./ContactGrid";
+"use client";
+import React, { useState } from "react";
+import { User, Save, Edit3 } from "lucide-react";
+import { useAuth } from "src/context/useAuth";
+import { updateUser } from "src/api/user";
+import LoadingSpinner from "./LoadingSpinner";
 
-interface ProfileHeroSectionProps {
-  candidateData: IUser;
-}
+const ProfileHeroSection: React.FC = () => {
+  const { user, updateUserContext } = useAuth(); // 🔹 obtenemos updateUserContext
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    city: user?.city || "",
+    state: user?.state || "",
+    country: user?.country || "",
+    about: user?.about || "",
+    image: user?.image || "",
+  });
+  const [saving, setSaving] = useState(false);
 
-const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({ candidateData }) => {
+  if (!user) {
+    return <LoadingSpinner />;
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await updateUser(user.id, formData);
+
+      // 🔹 sincronizamos el contexto con los cambios guardados
+      updateUserContext(formData);
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-lg sm:rounded-lg border border-slate-600/30 shadow-2xl overflow-hidden mb-6 sm:mb-8">
-      <div className="p-6 sm:p-8 lg:p-12">
-        <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8">
-          {/* Profile Image Section */}
-          <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-start">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-700 rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <img
-                src={candidateData.image}
-                alt={candidateData.name}
-                className="relative w-36 h-36 sm:w-48 sm:h-48 rounded-lg object-cover border-4 border-slate-600/50 shadow-xl"
-              />
-              <div className="absolute -bottom-2 -right-2 sm:-bottom-3 sm:-right-3 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-lg sm:rounded-xl flex items-center justify-center border-3 sm:border-4 border-slate-800 shadow-lg">
-                <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-            </div>
-          </div>
-
-          {/* Profile Info */}
-          <div className="flex-1 space-y-4 sm:space-y-6 w-full">
-            <div className="text-center lg:text-left">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-100 mb-2 sm:mb-3">
-                {candidateData.name}
-              </h2>
-            </div>
-
-            {/* Contact Grid */}
-            <ContactGrid candidateData={candidateData} />
+    <div className="bg-white/5 backdrop-blur-md rounded-xl border border-slate-600/20 shadow-md p-6 sm:p-8 mb-6">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+        {/* Profile Image */}
+        <div className="flex-shrink-0 flex justify-center lg:justify-start">
+          {isEditing ? (
+            <input
+              type="text"
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              placeholder="Image URL"
+              className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl border border-slate-400 p-1 text-sm"
+            />
+          ) : (
+            <img
+              src={formData.image || "/default-avatar.png"}
+              alt={formData.name}
+              className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl border border-slate-400 object-cover"
+            />
+          )}
+          <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-gray-700 rounded-xl flex items-center justify-center text-white">
+            <User className="w-5 h-5" />
           </div>
         </div>
 
-        {/* About Section */}
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-slate-600/30">
-          <div className="flex items-center gap-3 mb-3 sm:mb-4">
-            <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" />
-            <h3 className="text-lg sm:text-xl font-semibold text-slate-200">About</h3>
+        {/* Profile Info */}
+        <div className="flex-1 w-full space-y-4 text-center lg:text-left">
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="w-full bg-gray-100 text-gray-900 rounded p-2 font-semibold text-lg"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full bg-gray-100 text-gray-900 rounded p-2"
+              />
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
+                className="w-full bg-gray-100 text-gray-900 rounded p-2"
+              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                  className="flex-1 bg-gray-100 text-gray-900 rounded p-2"
+                />
+                <input
+                  type="text"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  placeholder="State"
+                  className="flex-1 bg-gray-100 text-gray-900 rounded p-2"
+                />
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  placeholder="Country"
+                  className="flex-1 bg-gray-100 text-gray-900 rounded p-2"
+                />
+              </div>
+              <textarea
+                name="about"
+                value={formData.about}
+                onChange={handleChange}
+                placeholder="About"
+                className="w-full bg-gray-100 text-gray-900 rounded p-2 text-base"
+              />
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-100">{formData.name}</h2>
+              <p className="text-gray-400">{formData.email}</p>
+              <p className="text-gray-400">{formData.phone}</p>
+              <p className="text-gray-400">
+                <strong></strong> {formData.city}, {formData.state}, {formData.country}
+              </p>
+              <p className="text-gray-400">About: {formData.about}</p>
+            </>
+          )}
+
+          {/* Edit / Save Button */}
+          <div className="mt-4">
+            {isEditing ? (
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-lg px-4 py-2 transition"
+              >
+                <Save className="w-4 h-4" /> {saving ? "Saving..." : "Save"}
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-800 text-white font-medium rounded-lg px-4 py-2 transition"
+              >
+                <Edit3 className="w-4 h-4" /> Editar información
+              </button>
+            )}
           </div>
-          <p className="text-slate-300 leading-relaxed text-base sm:text-lg">
-            {candidateData.about}
-          </p>
         </div>
       </div>
     </div>

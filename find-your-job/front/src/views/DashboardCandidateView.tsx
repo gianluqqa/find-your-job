@@ -37,7 +37,7 @@ const DashboardCandidateView: React.FC = () => {
         </div>
 
         {/* Profile Hero Section */}
-        <ProfileHeroSection candidateData={user} />
+        <ProfileHeroSection />
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-8 mt-6">

@@ -6,7 +6,7 @@ import { IJob } from "./IJob";
 import { ILanguage } from "./ILanguage";
 import { IPostulation } from "./IPostulation";
 import { IResume } from "./IResume";
-import { ISkills } from "./ISkills";
+import { ISkill } from "./ISkills";
 import { IStudy } from "./IStudy";
 
 export interface IUser {
@@ -24,7 +24,7 @@ export interface IUser {
   createdAt: string; // o Date, según cómo lo devuelva el back
 
   // Relaciones comunes
-  skills?: ISkills[];
+  skills?: ISkill[];
   studies?: IStudy[];
   certificates?: ICertificate[];
 
@@ -41,4 +41,15 @@ export interface IUser {
 
   // 🔒 El token NO debería estar aquí de forma fija
   // Si querés, podés manejarlo en AuthContext, no como propiedad del usuario
+}
+
+export interface IUserUpdate {
+  name: string;
+  email: string;
+  phone?: string;
+  city: string;
+  state: string;
+  country: string;
+  about?: string;
+  image?: string;
 }
