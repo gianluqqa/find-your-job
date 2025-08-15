@@ -1,6 +1,7 @@
 import { RegisterDto } from "./../dto/register.dto";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../entities/User";
+import { UserDto } from "../dto/user.dto";
 
 //Funcion para crear un usuario.
 export const createUserService = async (registerData: RegisterDto) => {
@@ -58,6 +59,30 @@ export const loginService = async (email: string, password: string) => {
   }
 
   console.log(`loginService: Usuario ${email} autenticado correctamente`);
+
+  return user;
+};
+
+export const updateUserService = async (userId: string, updateData: Partial<UserDto>) => {
+  const userRepository = AppDataSource.getRepository(User);
+
+  // Buscar usuario
+  const user = await userRepository.findOne({ where: { id: userId } });
+  if (!user) {
+    throw new Error("Usuario no encontrado");
+  }
+
+  // Actualizar campos que vengan en updateData
+  if (updateData.name !== undefined) user.name = updateData.name;
+  if (updateData.email !== undefined) user.email = updateData.email;
+  if (updateData.about !== undefined) user.about = updateData.about;
+  if (updateData.image !== undefined) user.image = updateData.image;
+  if (updateData.country !== undefined) user.country = updateData.country;
+  if (updateData.state !== undefined) user.state = updateData.state;
+  if (updateData.city !== undefined) user.city = updateData.city;
+
+  // Guardar cambios
+  await userRepository.save(user);
 
   return user;
 };

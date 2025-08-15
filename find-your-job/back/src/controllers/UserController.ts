@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { createUserService, getAllUsersService, getUserByIdService, loginService } from "../services/userService";
+import { createUserService, getAllUsersService, getUserByIdService, loginService, updateUserService } from "../services/userService";
 import { signJwt } from "../utils/signToken";
+import { UserDto } from "../dto/user.dto";
 
 //Encargado de ejecutar la funcion para crear un usuario.
 export const registerUserController = async (req: Request, res: Response) => {
@@ -106,5 +107,23 @@ export const loginController = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("loginController: Error en el servidor durante el inicio de sesión:", error);
     return res.status(500).json({ message: "Error en el servidor durante el inicio de sesión" });
+  }
+};
+
+export const updateUserController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id; // obtenemos el ID del usuario desde la URL
+    const updateData: Partial<UserDto> = req.body; // los datos a actualizar vienen del body
+
+    const updatedUser = await updateUserService(userId, updateData);
+
+    res.status(200).json({
+      message: "Usuario actualizado correctamente",
+      user: updatedUser,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message || "Error al actualizar el usuario",
+    });
   }
 };
