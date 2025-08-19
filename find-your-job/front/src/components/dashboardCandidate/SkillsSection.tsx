@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Award, Plus, X } from "lucide-react";
 
-import { ISkill, ISkillCreate } from "src/interfaces/ISkills";
+import { ISkill } from "src/interfaces/ISkills";
 import { ITechnology } from "src/interfaces/ITechnology";
 import { useAuth } from "src/context/useAuth";
 import { getSkillsByUserId, createSkill, deleteSkill, getTechnologies } from "src/api/candidateApi";

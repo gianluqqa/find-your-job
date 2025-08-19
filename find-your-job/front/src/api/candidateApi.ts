@@ -1,6 +1,6 @@
 import { IStudy } from "src/interfaces/IStudy";
 import api from "./axios";
-import { ISkill, ISkillCreate } from "src/interfaces/ISkills";
+import { ISkillCreate } from "src/interfaces/ISkills";
 import { ICertificate } from "src/interfaces/ICertificate";
 import { IExperience } from "src/interfaces/IExperience";
 
@@ -175,4 +175,4 @@ export const editExperience = async (experienceId: string, data: IExperience) =>
     console.error("Error al editar la experiencia:", error);
     throw new Error("No se pudo editar la experiencia.");
   }
-}
+};
