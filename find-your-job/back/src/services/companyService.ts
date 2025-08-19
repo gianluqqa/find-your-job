@@ -57,3 +57,17 @@ export const getCompanyByIdService = async (id: string) => {
 
   return company;
 };
+
+export const getAllCompaniesByUserIdService = async (userId: string) => {
+  const companyRepository = AppDataSource.getRepository(Company);
+
+  const companies = await companyRepository.find({
+    where: {
+      recruiter: { id: userId }, // 🔹 clave, usar la relación
+    },
+    relations: ["category", "jobs", "recruiter"],
+    order: { createdAt: "DESC" },
+  });
+
+  return companies;
+};

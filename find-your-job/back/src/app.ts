@@ -12,6 +12,7 @@ import languageRoutes from "./routes/lenguageRoutes";
 import aptitudeRoutes from "./routes/aptitudeRoutes";
 import skillRoutes from "./routes/skillRoutes";
 import technologyRoutes from "./routes/technologyRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 
 const app = express();
 
@@ -35,5 +36,6 @@ app.use("/languages", languageRoutes);
 app.use("/aptitudes", aptitudeRoutes);
 app.use("/skills", skillRoutes);
 app.use("/technologies", technologyRoutes);
+app.use("/categories", categoryRoutes);
 
 export default app;

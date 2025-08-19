@@ -18,14 +18,14 @@ export class Company {
   description?: string;
 
   @CreateDateColumn({ type: "timestamp" })
-    createdAt!: Date;
+  createdAt!: Date;
 
-  @OneToMany(() => Job, job => job.company)
+  @OneToMany(() => Job, (job) => job.company)
   jobs?: Job[];
 
-  @ManyToOne(() => User, user => user.companies)
+  @ManyToOne(() => User, (user) => user.companies)
   recruiter!: User;
 
-  @ManyToOne(() => Category, category => category.companies)
+  @ManyToOne(() => Category, (category) => category.companies)
   category!: Category;
 }

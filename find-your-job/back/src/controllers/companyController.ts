@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createCompanyService, getAllCompaniesService, getCompanyByIdService } from "../services/companyService";
+import { createCompanyService, getAllCompaniesByUserIdService, getAllCompaniesService, getCompanyByIdService } from "../services/companyService";
 
 // Encargado de ejecutar la funcion para crear una compañia (con filtrado de que mostrar y que no).
 export const createCompanyController = async (req: Request, res: Response) => {
@@ -10,8 +10,6 @@ export const createCompanyController = async (req: Request, res: Response) => {
     const filteredRecruiter = {
       id: newCompany.recruiter.id,
       name: newCompany.recruiter.name,
-      email: newCompany.recruiter.email,
-      role: newCompany.recruiter.role,
     };
 
     return res.status(201).json({
@@ -67,5 +65,26 @@ export const getCompanyByIdController = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("❌ Error al obtener compañía por ID:", error);
     res.status(404).json({ message: (error as Error).message });
+  }
+};
+
+// Encargado de ejecutar la funcion para obtener todas las companias de un recruiter en especifico.
+export const getAllCompaniesByUserIdController = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const companies = await getAllCompaniesByUserIdService(userId);
+
+    const filteredCompanies = companies.map((company) => ({
+      ...company,
+      recruiter: {
+        id: company.recruiter.id,
+        name: company.recruiter.name,
+      },
+    }));
+
+    return res.status(200).json(filteredCompanies);
+  } catch (error) {
+    console.error("❌ Error al obtener todas las compañías del usuario:", error);
+    return res.status(500).json({ message: "Error al obtener todas las compañías del usuario" });
   }
 };
