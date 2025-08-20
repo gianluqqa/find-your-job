@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import PostAJobView from "src/components/dashboard-recruiter/PostJob";
 
 const PostAJobPage = () => {
   return (
-    <div>PostAJobPage</div>
-  )
-}
+    <div>
+      <PostAJobView />
+    </div>
+  );
+};
 
-export default PostAJobPage
+export default PostAJobPage;

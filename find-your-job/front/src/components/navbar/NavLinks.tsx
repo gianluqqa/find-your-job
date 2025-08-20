@@ -22,10 +22,10 @@ const NavLinks: React.FC = () => {
   ];
 
   const recruiterLinks: NavLinkItem[] = [
-    { href: "/dashboard-company", label: "Companies" },
+    { href: "/company-recruiter", label: "Companies" },
     { href: "/create-company", label: "Create Company" },
     { href: "/post-a-job", label: "Post a Job" },
-    { href: "/applications-dashboard", label: "Applications" },
+    { href: "/jobs-applications", label: "Jobs/Applications" },
   ];
 
   const adminLinks: NavLinkItem[] = [
