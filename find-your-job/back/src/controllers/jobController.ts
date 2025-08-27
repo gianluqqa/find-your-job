@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createJobService, deleteJobService, getAllJobsService, getJobsByCompanyService, updateJobService } from "../services/jobService";
+import { createJobService, deleteJobService, getAllJobsService, getJobsByCompanyService, getJobsByRecruiterService, updateJobService } from "../services/jobService";
 
 //Controlador que maneja la funcion para crear un job.
 export const createJobController = async (req: Request, res: Response) => {
@@ -123,3 +123,15 @@ export const getAllJobsController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error al obtener todos los jobs", error: (error as Error).message });
   }
 };
+
+export const getJobsByRecruiterController = async (req: Request, res: Response) =>{
+  try {
+    const { id } = req.params;
+    const jobs = await getJobsByRecruiterService(id);
+
+    return res.status(200).json(jobs);
+  } catch (error) {
+    console.error("❌ Error al obtener jobs de un recruiter:", error);
+    return res.status(500).json({ message: "Error al obtener jobs de un recruiter", error: (error as Error).message });
+  }
+}

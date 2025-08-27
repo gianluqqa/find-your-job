@@ -128,3 +128,12 @@ export const getAllJobsService = async () => {
 
   return jobs;
 };
+
+export const getJobsByRecruiterService = async (recruiterId: string) => {
+  const jobRepository = AppDataSource.getRepository(Job);
+
+  return await jobRepository.find({
+    where: { recruiter: { id: recruiterId } },
+    relations: ["recruiter", "company"],
+  });
+};
