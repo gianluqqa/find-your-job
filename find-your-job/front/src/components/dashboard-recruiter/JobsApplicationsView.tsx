@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "src/context/useAuth";
-import { getAllJobs, deleteJob, editJob } from "src/api/recruiterApi";
+import { deleteJob, editJob, getJobsByRecruiter } from "src/api/recruiterApi";
 import { IJob } from "src/interfaces/IJob";
 
 const JobsApplicationsView = () => {
@@ -10,12 +10,19 @@ const JobsApplicationsView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editingJobId, setEditingJobId] = useState<string | null>(null);
+  const [selectedJob, setSelectedJob] = useState<IJob | null>(null);
 
   // 🔹 Traer jobs
-  const fetchJobs = async () => {
+  const fetchJobsByRecruiter = async () => {
+    if (!user?.id) return; // Solo ejecutar si hay usuario
+    
     try {
-      const jobsData = await getAllJobs();
+      const jobsData = await getJobsByRecruiter(user.id);
       setJobs(jobsData);
+      // Si hay jobs y no hay uno seleccionado, seleccionar el primero
+      if (jobsData.length > 0 && !selectedJob) {
+        setSelectedJob(jobsData[0]);
+      }
       setLoading(false);
     } catch (err) {
       console.error("Error fetching jobs:", err);
@@ -24,9 +31,12 @@ const JobsApplicationsView = () => {
     }
   };
 
+  // 🔹 SOLUCIÓN: useEffect que se ejecuta cuando el usuario esté disponible
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    if (user?.id) {
+      fetchJobsByRecruiter();
+    }
+  }, [user?.id]); // Dependencia: se ejecuta cuando cambia el ID del usuario
 
   // 🔹 Eliminar job
   const handleDeleteJob = async (jobId: string) => {
@@ -35,7 +45,11 @@ const JobsApplicationsView = () => {
     
     try {
       await deleteJob(jobId, user.id);
-      fetchJobs();
+      // Si el job eliminado era el seleccionado, limpiar la selección
+      if (selectedJob?.id === jobId) {
+        setSelectedJob(null);
+      }
+      fetchJobsByRecruiter();
     } catch (err) {
       console.error("Error al eliminar el trabajo:", err);
       alert("Failed to delete job");
@@ -55,7 +69,13 @@ const JobsApplicationsView = () => {
 
       await editJob(job.id, updatedJob);
       setEditingJobId(null);
-      fetchJobs();
+      
+      // Actualizar el job seleccionado si es el mismo
+      if (selectedJob?.id === job.id) {
+        setSelectedJob(updatedJob);
+      }
+      
+      fetchJobsByRecruiter();
     } catch (err) {
       console.error("Error updating status:", err);
       alert("Failed to update status");
@@ -100,7 +120,7 @@ const JobsApplicationsView = () => {
             <h2 className="text-red-400 text-xl font-bold mb-2">Error Loading Jobs</h2>
             <p className="text-red-300">{error}</p>
             <button 
-              onClick={fetchJobs}
+              onClick={fetchJobsByRecruiter}
               className="mt-4 px-6 py-2 bg-red-500/20 border border-red-500/50 text-red-400 rounded-sm hover:bg-red-500/30 transition-colors duration-200"
             >
               Try Again
@@ -129,37 +149,72 @@ const JobsApplicationsView = () => {
           </div>
         </div>
 
-        {/* Jobs List */}
+        {/* Main Content */}
         {jobs.length === 0 ? (
           <div className="bg-gradient-to-br from-[#69818D]/20 to-[#AFB3B7]/10 backdrop-blur-xl rounded-sm shadow-2xl border border-[#5A636A]/30 p-8 sm:p-12 text-center">
             <div className="text-[#69818D] text-6xl mb-6">📋</div>
             <h2 className="text-[#AFB3B7] text-xl sm:text-2xl font-bold mb-4">No Job Postings Found</h2>
-            <p className="text-[#69818D] mb-6">You haven't created any job postings yet.</p>
+            <p className="text-[#69818D] mb-6">You have not created any job postings yet.</p>
             <button className="px-6 py-3 bg-gradient-to-r from-[#69818D] to-[#AFB3B7] text-[#0D1F23] font-semibold rounded-sm hover:from-[#AFB3B7] hover:to-[#69818D] transition-all duration-200">
               Create Your First Job
             </button>
           </div>
         ) : (
-          <div className="space-y-4 sm:space-y-6">
-            {jobs.map((job) => (
-              <div key={job.id} className="bg-gradient-to-br from-[#69818D]/20 to-[#AFB3B7]/10 backdrop-blur-xl rounded-sm shadow-2xl border border-[#5A636A]/30 overflow-hidden">
-                <div className="p-3 sm:p-4 lg:p-5">
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3 lg:gap-6">
-                    {/* Job Info */}
-                    <div className="flex-1 space-y-3">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+            {/* Panel Izquierdo - Lista de Jobs */}
+            <div className="lg:col-span-1 bg-gradient-to-br from-[#69818D]/20 to-[#AFB3B7]/10 backdrop-blur-xl rounded-sm shadow-2xl border border-[#5A636A]/30 overflow-hidden">
+              <div className="bg-gradient-to-r from-[#0D1F23] to-[#132E35] px-4 py-3 border-b border-[#5A636A]/30">
+                <h2 className="text-lg font-semibold text-[#AFB3B7]">Job Listings</h2>
+              </div>
+              <div className="overflow-y-auto h-full p-4 space-y-3">
+                {jobs.map((job) => (
+                  <div 
+                    key={job.id} 
+                    onClick={() => setSelectedJob(job)}
+                    className={`cursor-pointer transition-all duration-200 rounded-sm border p-4 hover:scale-[1.02] ${
+                      selectedJob?.id === job.id 
+                        ? 'bg-gradient-to-br from-[#69818D]/30 to-[#AFB3B7]/20 border-[#69818D]/50' 
+                        : 'bg-gradient-to-br from-[#132E35]/50 to-[#2D4A53]/30 border-[#5A636A]/30 hover:border-[#69818D]/40'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-white font-medium text-sm leading-tight pr-2">{job.title}</h3>
+                      <span className={`px-2 py-1 rounded-sm text-xs font-medium border ${getStatusColor(job.status)}`}>
+                        {job.status}
+                      </span>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[#69818D] text-xs">{job.company?.name || 'N/A'}</p>
+                      <p className="text-[#AFB3B7] text-xs">{job.location} • {job.type}</p>
+                      <p className="text-[#69818D] text-xs">{job.vacancies} vacancies</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Panel Derecho - Detalle del Job */}
+            <div className="lg:col-span-2 bg-gradient-to-br from-[#69818D]/20 to-[#AFB3B7]/10 backdrop-blur-xl rounded-sm shadow-2xl border border-[#5A636A]/30 overflow-hidden">
+              {selectedJob ? (
+                <>
+                  <div className="bg-gradient-to-r from-[#0D1F23] to-[#132E35] px-4 py-3 border-b border-[#5A636A]/30">
+                    <h2 className="text-lg font-semibold text-[#AFB3B7]">Job Details</h2>
+                  </div>
+                  <div className="overflow-y-auto h-full p-4 sm:p-6">
+                    <div className="space-y-4">
                       {/* Title and Status */}
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white leading-tight">
-                          {job.title}
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white leading-tight">
+                          {selectedJob.title}
                         </h3>
                         
                         {/* Status Management */}
                         <div className="flex items-center gap-2">
-                          {editingJobId === job.id ? (
+                          {editingJobId === selectedJob.id ? (
                             <div className="flex items-center gap-2">
                               <select
-                                value={job.status}
-                                onChange={(e) => handleChangeStatus(job, e.target.value as "Active" | "Expired" | "Urgent")}
+                                value={selectedJob.status}
+                                onChange={(e) => handleChangeStatus(selectedJob, e.target.value as "Active" | "Expired" | "Urgent")}
                                 className="px-3 py-2 bg-[#132E35]/50 border border-[#2D4A53] rounded-sm text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#69818D] focus:border-transparent"
                                 autoFocus
                               >
@@ -176,79 +231,87 @@ const JobsApplicationsView = () => {
                             </div>
                           ) : (
                             <button
-                              onClick={() => setEditingJobId(job.id)}
-                              className={`px-3 py-2 rounded-sm border text-xs sm:text-sm font-medium transition-all duration-200 hover:scale-105 ${getStatusColor(job.status)}`}
+                              onClick={() => setEditingJobId(selectedJob.id)}
+                              className={`px-3 py-2 rounded-sm border text-sm font-medium transition-all duration-200 hover:scale-105 ${getStatusColor(selectedJob.status)}`}
                             >
-                              {job.status}
+                              {selectedJob.status}
                             </button>
                           )}
                         </div>
                       </div>
 
                       {/* Job Details Grid */}
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-                        <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                           <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Company</p>
-                          <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.company?.name || 'N/A'}</p>
+                          <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.company?.name || 'N/A'}</p>
                         </div>
 
-                        <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                        <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                           <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Location</p>
-                          <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.location}</p>
+                          <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.location}</p>
                         </div>
 
-                        <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                        <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                           <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Type</p>
-                          <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.type}</p>
+                          <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.type}</p>
                         </div>
 
-                        <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                        <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                           <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Modality</p>
-                          <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.modality}</p>
+                          <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.modality}</p>
                         </div>
 
-                        {job.salary && (
-                          <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                        {selectedJob.salary && (
+                          <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                             <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Salary</p>
-                            <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.salary}</p>
+                            <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.salary}</p>
                           </div>
                         )}
 
-                        <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50">
+                        <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50">
                           <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Vacancies</p>
-                          <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.vacancies}</p>
+                          <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.vacancies}</p>
                         </div>
 
-                        {job.category && (
-                          <div className="bg-[#132E35]/30 rounded-sm p-2 border border-[#2D4A53]/50 col-span-2 sm:col-span-1">
+                        {selectedJob.category && (
+                          <div className="bg-[#132E35]/30 rounded-sm p-3 border border-[#2D4A53]/50 col-span-2 sm:col-span-1">
                             <p className="text-[#69818D] text-xs uppercase tracking-wider mb-1">Category</p>
-                            <p className="text-[#AFB3B7] font-medium text-xs sm:text-sm">{job.category}</p>
+                            <p className="text-[#AFB3B7] font-medium text-sm">{selectedJob.category}</p>
                           </div>
                         )}
                       </div>
 
                       {/* Description */}
-                      {job.description && (
+                      {selectedJob.description && (
                         <div className="bg-[#132E35]/30 rounded-sm p-4 border border-[#2D4A53]/50">
-                          <p className="text-[#69818D] text-xs uppercase tracking-wider mb-2">Description</p>
-                          <p className="text-[#AFB3B7] leading-relaxed line-clamp-3">{job.description}</p>
+                          <p className="text-[#69818D] text-xs uppercase tracking-wider mb-3">Description</p>
+                          <p className="text-[#AFB3B7] leading-relaxed">{selectedJob.description}</p>
                         </div>
                       )}
-                    </div>
 
-                    {/* Actions */}
-                    <div className="flex justify-end">
-                      <button 
-                        onClick={() => handleDeleteJob(job.id)}
-                        className="px-3 py-2 bg-gradient-to-r from-red-500/20 to-red-400/20 border border-red-500/30 text-red-400 rounded-sm hover:from-red-500/30 hover:to-red-400/30 hover:border-red-500/50 transition-all duration-200 text-xs font-medium"
-                      >
-                        Delete
-                      </button>
+                      {/* Actions */}
+                      <div className="flex justify-end pt-4 border-t border-[#5A636A]/30">
+                        <button 
+                          onClick={() => handleDeleteJob(selectedJob.id)}
+                          className="px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-400/20 border border-red-500/30 text-red-400 rounded-sm hover:from-red-500/30 hover:to-red-400/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                        >
+                          Delete Job
+                        </button>
+                      </div>
                     </div>
                   </div>
+                </>
+              ) : (
+                <div className="h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <div className="text-[#69818D] text-6xl mb-4">👈</div>
+                    <h3 className="text-[#AFB3B7] text-xl font-semibold mb-2">Select a Job</h3>
+                    <p className="text-[#69818D]">Choose a job from the left panel to view its details</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
         )}
       </div>

@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Briefcase } from "lucide-react";
-import LoadingSpinner from "src/components/dashboardCandidate/LoadingSpinner";
-import ProfileHeroSection from "src/components/dashboardCandidate/ProfileHeroSection";
-import ProfessionalExperience from "src/components/dashboardCandidate/ProfessionalExperience";
-import StudiesSection from "src/components/dashboardCandidate/StudiesSection";
-import CertificatesSection from "src/components/dashboardCandidate/CertificatesSection";
-import SkillsSection from "src/components/dashboardCandidate/SkillsSection";
+import LoadingSpinner from "src/components/dashboard-candidate/LoadingSpinner";
+import ProfileHeroSection from "src/components/dashboard-candidate/ProfileHeroSection";
+import ProfessionalExperience from "src/components/dashboard-candidate/ProfessionalExperience";
+import StudiesSection from "src/components/dashboard-candidate/StudiesSection";
+import CertificatesSection from "src/components/dashboard-candidate/CertificatesSection";
+import SkillsSection from "src/components/dashboard-candidate/SkillsSection";
 import { useAuth } from "src/context/useAuth";
 
 const DashboardCandidateView: React.FC = () => {

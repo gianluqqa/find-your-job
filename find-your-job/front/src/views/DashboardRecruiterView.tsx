@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import LoadingSpinner from "src/components/dashboardCandidate/LoadingSpinner";
+import LoadingSpinner from "src/components/dashboard-candidate/LoadingSpinner";
 import { useAuth } from "src/context/useAuth";
 import { updateUser } from "src/api/user";
 import { IUserUpdate } from "src/interfaces/IUser";

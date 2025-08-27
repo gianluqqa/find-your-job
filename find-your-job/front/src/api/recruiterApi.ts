@@ -1,4 +1,4 @@
-import { ICompany, ICreateCompany } from "src/interfaces/ICompany";
+import {  ICreateCompany } from "src/interfaces/ICompany";
 import { ICreateJob, IJob } from "src/interfaces/IJob";
 import api from "./axios";
 
@@ -16,7 +16,7 @@ export const createCompany = async (data: ICreateCompany) => {
 
 export const getCompaniesByUserId = async (userId: string) => {
   try {
-    const response = await api.get(`/companies/get/${userId}`);
+    const response = await api.get(`/companies/all/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener las empresas del usuario:", error);
@@ -98,5 +98,15 @@ export const editJob = async (jobId: string, data: IJob) => {
   } catch (error) {
     console.error("Error editing job:", error);
     throw error;
+  }
+};
+
+export const getJobsByRecruiter = async (recruiterId: string) => {
+  try {
+    const response = await api.get(`/jobs/recruiter/${recruiterId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los trabajos del recruiter:", error);
+    throw new Error("No se pudieron obtener los trabajos del recruiter.");
   }
 };

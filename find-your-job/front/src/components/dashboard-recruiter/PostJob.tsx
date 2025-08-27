@@ -30,6 +30,13 @@ const PostAJobView = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [companies, setCompanies] = useState<ICompany[]>([]);
 
+  // Cuando el usuario se loguea, automáticamente actualiza el formData.userId
+  useEffect(() => {
+    if (user?.id) {
+      setFormData(prev => ({ ...prev, userId: user.id }));
+    }
+  }, [user]);
+
   // 🔹 traer categorías
   useEffect(() => {
     const fetchCategories = async () => {
